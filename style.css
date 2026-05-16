@@ -22,6 +22,10 @@ body {
   height: 55px;
 }
 
+.logo {
+  height: 55px;
+}
+
 .nav-buttons a {
   margin-left: 15px;
   color: #93c5fd;
