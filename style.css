@@ -12,22 +12,29 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 12px 20px;
   background: #111827;
   border-bottom: 1px solid #1f2937;
-  margin-bottom: 25px;
+  height: 70px;
+  box-sizing: border-box;
 }
 
-.navbar img {
-  height: 55px;
-}
-
+/* LOGO */
+.navbar img,
 .logo {
-  height: 55px;
+  height: 45px;
+  width: auto;
+  display: block;
+}
+
+/* NAV BUTTONS */
+.nav-buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .nav-buttons a {
-  margin-left: 15px;
   color: #93c5fd;
   text-decoration: none;
   font-weight: bold;
