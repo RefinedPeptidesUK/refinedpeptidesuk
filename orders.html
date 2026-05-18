@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>View Orders</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=20">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -11,90 +12,271 @@
   <img class="logo" src="logo.png" alt="Refined Peptides UK">
   <div class="nav-buttons">
     <a href="index.html">New Order</a>
-    <a href="orders.html">View Orders</a>
+    <a href="orders.html">Orders</a>
   </div>
 </div>
 
 <div class="container">
-  <div class="card">
-    <h2>All Orders</h2>
+  <h2 class="page-title">Orders</h2>
+  <div id="ordersContainer">Loading orders…</div>
+</div>
 
-    <div id="ordersContainer" style="color:white;">
-      Loading orders…
+<div id="orderDetail" class="order-detail hidden">
+  <div class="detail-header">
+    <button class="back-btn" onclick="closeOrder()">← Back</button>
+    <h2 id="detailOrderId"></h2>
+  </div>
+
+  <div class="detail-content">
+    <h3 id="detailCustomer"></h3>
+
+    <div class="info-block">
+      <strong>Status</strong>
+      <p id="detailStatus"></p>
     </div>
 
+    <div class="info-block">
+      <strong>Shipping / Collection</strong>
+      <p id="detailShipping"></p>
+    </div>
+
+    <div class="info-block">
+      <strong>Customer Address</strong>
+      <p id="detailAddress"></p>
+    </div>
+
+    <div class="info-block">
+      <strong>Woo Order Notes</strong>
+      <p id="detailWooNotes"></p>
+    </div>
+
+    <div class="info-block">
+      <strong>Items</strong>
+      <div id="detailItems"></div>
+    </div>
+
+    <label>Assign Order</label>
+    <select id="detailAssignedTo"></select>
+
+    <label>Payment Status</label>
+    <select id="detailPaymentStatus">
+      <option value="">Select payment status</option>
+      <option value="Pending">Pending</option>
+      <option value="Bank transfer received">Bank transfer received</option>
+      <option value="Paid in cash">Paid in cash</option>
+      <option value="Paid via card">Paid via card</option>
+    </select>
+
+    <label>Internal Notes</label>
+    <textarea id="detailInternalNotes" placeholder="Staff-only notes..."></textarea>
+
+    <button onclick="saveOrderDetails()">Save Changes</button>
+    <button class="small-btn" onclick="markCompleted()">Mark Completed</button>
   </div>
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzPrGq5XHiUMogsGtEMUFN3wr1aTFEYh8o-tgl3uVkGHWMk_eYcYl2Kz6pOXcRBFsP-/exec";
 
-// Fetch orders on page load
-fetch(API_URL, {
-  method: "POST",
-  body: JSON.stringify({ action: "listOrders" })
-})
-.then(r => r.json())
-.then(data => {
-  console.log("Orders response:", data);
+let orders = [];
+let staffList = [];
+let currentOrder = null;
 
-  if (!data.success) {
+loadInitialData();
+
+function loadInitialData() {
+  fetch(API_URL)
+    .then(r => r.json())
+    .then(data => {
+      staffList = data.staff || [];
+      loadOrders();
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("ordersContainer").innerHTML =
+        "<p>Could not load staff/products.</p>";
+    });
+}
+
+function loadOrders() {
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ action: "listOrders" })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.success) {
+      document.getElementById("ordersContainer").innerHTML =
+        `<p>Error: ${data.message}</p>`;
+      return;
+    }
+
+    orders = data.orders || [];
+    renderOrderCards();
+  })
+  .catch(err => {
+    console.error(err);
     document.getElementById("ordersContainer").innerHTML =
-      `<p>Error: ${data.message}</p>`;
-    return;
-  }
+      "<p>Could not load orders.</p>";
+  });
+}
 
-  renderOrders(data.orders);
-})
-.catch(err => {
-  console.error(err);
-  document.getElementById("ordersContainer").innerHTML =
-    `<p>Could not load orders. Check the console for details.</p>`;
-});
-
-// Render orders into the page
-function renderOrders(orders) {
+function renderOrderCards() {
   const container = document.getElementById("ordersContainer");
 
-  if (!orders || orders.length === 0) {
+  if (!orders.length) {
     container.innerHTML = "<p>No orders found.</p>";
     return;
   }
 
-  let html = `
-    <table style="width:100%; border-collapse: collapse; color:white;">
-      <tr style="border-bottom:1px solid #1f2937;">
-        <th style="text-align:left; padding:8px;">Order #</th>
-        <th style="text-align:left; padding:8px;">Customer</th>
-        <th style="text-align:left; padding:8px;">Staff</th>
-        <th style="text-align:left; padding:8px;">Items</th>
-        <th style="text-align:left; padding:8px;">Note</th>
-      </tr>
-  `;
+  let html = "";
 
-  orders.forEach(o => {
-    const orderItems = Array.isArray(o.items) ? o.items : [];
+  orders.forEach(order => {
+    const items = Array.isArray(order.items) ? order.items : [];
 
-    const items = orderItems.length
-      ? orderItems.map(i => `${i.product} (${i.quantity})`).join("<br>")
+    const itemSummary = items.length
+      ? items.map(i => `${i.product} x${i.quantity}`).join("<br>")
       : "No items";
 
     html += `
-      <tr style="border-bottom:1px solid #1f2937;">
-        <td style="padding:8px;">${o.orderId || ""}</td>
-        <td style="padding:8px;">${o.customerName || ""}</td>
-        <td style="padding:8px;">${o.assignedTo || ""}</td>
-        <td style="padding:8px;">${items}</td>
-        <td style="padding:8px;">${o.notes || ""}</td>
-      </tr>
+      <div class="order-card" onclick="openOrder('${order.orderId}')">
+        <div class="order-card-top">
+          <strong>#${order.orderId}</strong>
+          <span class="status-pill">${order.status || "No status"}</span>
+        </div>
+
+        <h3>${order.customerName || "No customer name"}</h3>
+
+        <div class="order-card-items">
+          ${itemSummary}
+        </div>
+
+        <div class="order-card-meta">
+          <span>${order.shippingMethod || "No method"}</span>
+          <span>${order.paymentStatus || "Payment pending"}</span>
+        </div>
+
+        <div class="assigned-line">
+          Assigned: ${order.assignedTo || "Unassigned"}
+        </div>
+      </div>
     `;
   });
 
-  html += "</table>";
   container.innerHTML = html;
 }
-</script>
 
+function openOrder(orderId) {
+  currentOrder = orders.find(o => String(o.orderId) === String(orderId));
+
+  if (!currentOrder) {
+    alert("Order not found.");
+    return;
+  }
+
+  document.getElementById("detailOrderId").textContent = `Order #${currentOrder.orderId}`;
+  document.getElementById("detailCustomer").textContent = currentOrder.customerName || "No customer name";
+  document.getElementById("detailStatus").textContent = currentOrder.status || "No status";
+  document.getElementById("detailShipping").textContent = currentOrder.shippingMethod || "Not set";
+  document.getElementById("detailAddress").innerHTML = formatMultiline(currentOrder.customerAddress || "No address");
+  document.getElementById("detailWooNotes").innerHTML = formatMultiline(currentOrder.wooOrderNotes || "No Woo notes");
+
+  const items = Array.isArray(currentOrder.items) ? currentOrder.items : [];
+
+  document.getElementById("detailItems").innerHTML = items.length
+    ? items.map(i => `<div class="item-row">${i.product} <strong>x${i.quantity}</strong></div>`).join("")
+    : "<p>No items</p>";
+
+  populateStaffDropdown();
+  document.getElementById("detailAssignedTo").value = currentOrder.assignedTo || "";
+  document.getElementById("detailPaymentStatus").value = currentOrder.paymentStatus || "";
+  document.getElementById("detailInternalNotes").value = currentOrder.internalNotes || "";
+
+  document.getElementById("orderDetail").classList.remove("hidden");
+}
+
+function closeOrder() {
+  document.getElementById("orderDetail").classList.add("hidden");
+  currentOrder = null;
+}
+
+function populateStaffDropdown() {
+  const select = document.getElementById("detailAssignedTo");
+
+  let html = `<option value="">Unassigned</option>`;
+
+  staffList.forEach(name => {
+    html += `<option value="${name}">${name}</option>`;
+  });
+
+  select.innerHTML = html;
+}
+
+function saveOrderDetails() {
+  if (!currentOrder) return;
+
+  const payload = {
+    action: "saveOrderDetails",
+    orderId: currentOrder.orderId,
+    assignedTo: document.getElementById("detailAssignedTo").value,
+    paymentStatus: document.getElementById("detailPaymentStatus").value,
+    internalNotes: document.getElementById("detailInternalNotes").value
+  };
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    alert("Order saved.");
+    closeOrder();
+    loadOrders();
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Could not save order.");
+  });
+}
+
+function markCompleted() {
+  if (!currentOrder) return;
+
+  if (!confirm("Mark this order as completed?")) return;
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "fulfilOrder",
+      orderId: currentOrder.orderId
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    alert("Order marked completed.");
+    closeOrder();
+    loadOrders();
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Could not complete order.");
+  });
+}
+
+function formatMultiline(text) {
+  return String(text).replace(/\n/g, "<br>");
+}
+</script>
 
 </body>
 </html>
