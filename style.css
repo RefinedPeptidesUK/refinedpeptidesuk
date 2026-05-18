@@ -44,70 +44,104 @@ body {
 }
 
 /* =========================================
-   NAVBAR
+   APP HEADER / NAV
 ========================================= */
 
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 14px 22px;
+.app-header {
+  width: 100%;
+  padding: 18px 20px 14px;
 
   background: rgba(17,24,39,0.94);
-  backdrop-filter: blur(12px);
-
   border-bottom: 1px solid var(--border);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
 
-.navbar img,
 .logo {
-  height: 42px;
+  height: 52px;
   width: auto;
   display: block;
 }
 
-.nav-buttons {
+.desktop-nav {
   display: flex;
-  gap: 18px;
-  align-items: center;
+  justify-content: center;
+  gap: 34px;
 }
 
-.nav-buttons a {
+.desktop-nav a {
   color: var(--blue-soft);
   text-decoration: none;
+  font-size: 15px;
   font-weight: 700;
-  font-size: 14px;
-  transition: 0.2s;
 }
 
-.nav-buttons a:hover {
+.desktop-nav a:hover {
   color: var(--blue-pale);
 }
 
-/* =========================================
-   LAYOUT
-========================================= */
-
-.container {
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 28px 18px 44px;
+.mobile-bottom-nav {
+  display: none;
 }
 
-.page-title {
-  margin: 0 0 26px;
+@media (max-width: 640px) {
 
-  color: var(--blue-pale);
+  .app-header {
+    padding: 18px 16px;
+  }
 
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  .logo {
+    height: 58px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 5000;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    padding: 10px;
+
+    background: rgba(17,24,39,0.96);
+    border: 1px solid rgba(147,197,253,0.16);
+    border-radius: 22px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    backdrop-filter: blur(12px);
+  }
+
+  .mobile-bottom-nav a {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+
+    padding: 12px 8px;
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  }
+
+  body {
+    padding-bottom: 90px;
+  }
+
+  body.detail-open .mobile-bottom-nav {
+    display: none;
+  }
 }
 
 /* =========================================
@@ -583,22 +617,6 @@ button:hover {
 ========================================= */
 
 @media (max-width: 640px) {
-
-  .navbar {
-    padding: 14px 18px;
-  }
-
-  .logo {
-    height: 45px;
-  }
-
-  .nav-buttons {
-    gap: 18px;
-  }
-
-  .nav-buttons a {
-    font-size: 15px;
-  }
 
   .container {
     max-width: 100%;
