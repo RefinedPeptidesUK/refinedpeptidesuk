@@ -73,14 +73,16 @@ function renderOrders(orders) {
   `;
 
   orders.forEach(o => {
-    const items = o.items
-      .map(i => `${i.product} (${i.quantity})`)
-      .join("<br>");
+    const orderItems = Array.isArray(o.items) ? o.items : [];
+
+    const items = orderItems.length
+      ? orderItems.map(i => `${i.product} (${i.quantity})`).join("<br>")
+      : "No items";
 
     html += `
       <tr style="border-bottom:1px solid #1f2937;">
-        <td style="padding:8px;">${o.orderId}</td>
-        <td style="padding:8px;">${o.customerName}</td>
+        <td style="padding:8px;">${o.orderId || ""}</td>
+        <td style="padding:8px;">${o.customerName || ""}</td>
         <td style="padding:8px;">${o.assignedTo || ""}</td>
         <td style="padding:8px;">${items}</td>
         <td style="padding:8px;">${o.notes || ""}</td>
