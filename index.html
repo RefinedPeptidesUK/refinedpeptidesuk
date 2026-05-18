@@ -33,6 +33,16 @@
     <label>Staff Name</label>
     <select id="staffSelect"></select>
 
+    <label>Payment Method</label>
+    <select id="paymentMethod">
+      <option value="">Select payment method</option>
+      <option value="Bank transfer">Bank transfer</option>
+      <option value="Cash">Cash</option>
+    </select>
+
+    <label>Coupon Code</label>
+    <input id="couponCode" placeholder="e.g. WELCOME10">
+    
     <label>Products</label>
     <div id="productList"></div>
 
@@ -136,6 +146,9 @@ function submitOrder() {
   const staffName = document.getElementById("staffSelect").value;
   const note = document.getElementById("orderNote").value;
 
+  const paymentMethod = document.getElementById("paymentMethod").value;
+  const couponCode = document.getElementById("couponCode").value;
+
   const productRows = document.querySelectorAll(".product-row");
   const items = [];
 
@@ -157,6 +170,8 @@ function submitOrder() {
     action: "submitOrder",
     customerName,
     staffName,
+    paymentMethod,
+    couponCode,
     items,
     note
   };
