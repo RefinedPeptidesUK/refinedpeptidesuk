@@ -268,6 +268,23 @@ function clearFilters() {
   renderOrderCards();
 }
 
+  function clearFilters() {
+  document.getElementById("statusFilter").value = "";
+  document.getElementById("customerSearch").value = "";
+  document.getElementById("dateFrom").value = "";
+  document.getElementById("dateTo").value = "";
+
+  renderOrderCards();
+}
+
+function openFilters() {
+  document.getElementById("filterOverlay").classList.remove("hidden");
+}
+
+function closeFilters() {
+  document.getElementById("filterOverlay").classList.add("hidden");
+}
+
 function getOrderDate(order) {
   if (order.orderDate) {
     const date = new Date(order.orderDate);
