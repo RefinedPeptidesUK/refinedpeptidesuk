@@ -259,8 +259,8 @@ function clearFilters() {
 }
 
 function getOrderDate(order) {
-  if (order.lastUpdated) {
-    const date = new Date(order.lastUpdated);
+  if (order.orderDate) {
+    const date = new Date(order.orderDate);
     return isNaN(date.getTime()) ? null : date;
   }
 
