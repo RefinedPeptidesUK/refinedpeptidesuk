@@ -19,7 +19,15 @@
 <div class="container">
   <h2 class="page-title">Orders</h2>
 
-  <div class="filter-panel">
+<button class="filter-open-btn" onclick="openFilters()">Filter Orders</button>
+
+<div id="filterOverlay" class="filter-overlay hidden">
+  <div class="filter-header">
+    <button class="back-btn" onclick="closeFilters()">← Back</button>
+    <h2>Filter Orders</h2>
+  </div>
+
+  <div class="filter-content">
     <label>Filter by status</label>
     <select id="statusFilter" onchange="renderOrderCards()">
       <option value="">All statuses</option>
@@ -39,8 +47,10 @@
     <label>Date to</label>
     <input id="dateTo" type="date" onchange="renderOrderCards()">
 
+    <button onclick="closeFilters()">Apply Filters</button>
     <button class="small-btn" onclick="clearFilters()">Clear Filters</button>
   </div>
+</div>
 
   <div id="ordersContainer">Loading orders…</div>
 </div>
