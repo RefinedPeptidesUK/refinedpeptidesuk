@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>View Orders</title>
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -18,6 +18,30 @@
 
 <div class="container">
   <h2 class="page-title">Orders</h2>
+
+  <div class="filter-panel">
+    <label>Filter by status</label>
+    <select id="statusFilter" onchange="renderOrderCards()">
+      <option value="">All statuses</option>
+    </select>
+
+    <label>Search customer</label>
+    <input
+      id="customerSearch"
+      type="text"
+      placeholder="Search customer name..."
+      oninput="renderOrderCards()"
+    >
+
+    <label>Date from</label>
+    <input id="dateFrom" type="date" onchange="renderOrderCards()">
+
+    <label>Date to</label>
+    <input id="dateTo" type="date" onchange="renderOrderCards()">
+
+    <button class="small-btn" onclick="clearFilters()">Clear Filters</button>
+  </div>
+
   <div id="ordersContainer">Loading orders…</div>
 </div>
 
@@ -112,6 +136,7 @@ function loadOrders() {
     }
 
     orders = data.orders || [];
+    populateStatusFilter();
     renderOrderCards();
   })
   .catch(err => {
@@ -124,46 +149,122 @@ function loadOrders() {
 function renderOrderCards() {
   const container = document.getElementById("ordersContainer");
 
-  if (!orders.length) {
-    container.innerHTML = "<p>No orders found.</p>";
+  const statusFilter = document.getElementById("statusFilter").value;
+  const customerSearch = document.getElementById("customerSearch").value.toLowerCase().trim();
+  const dateFrom = document.getElementById("dateFrom").value;
+  const dateTo = document.getElementById("dateTo").value;
+
+  let filteredOrders = [...orders];
+
+  if (statusFilter) {
+    filteredOrders = filteredOrders.filter(order =>
+      String(order.status || "") === statusFilter
+    );
+  }
+
+  if (customerSearch) {
+    filteredOrders = filteredOrders.filter(order =>
+      String(order.customerName || "").toLowerCase().includes(customerSearch)
+    );
+  }
+
+  if (dateFrom) {
+    filteredOrders = filteredOrders.filter(order => {
+      const orderDate = getOrderDate(order);
+      return orderDate && orderDate >= new Date(dateFrom + "T00:00:00");
+    });
+  }
+
+  if (dateTo) {
+    filteredOrders = filteredOrders.filter(order => {
+      const orderDate = getOrderDate(order);
+      return orderDate && orderDate <= new Date(dateTo + "T23:59:59");
+    });
+  }
+
+  if (!filteredOrders.length) {
+    container.innerHTML = "<p>No orders match your filters.</p>";
     return;
   }
 
   let html = "";
 
-  orders.forEach(order => {
+  filteredOrders.forEach(order => {
     const items = Array.isArray(order.items) ? order.items : [];
 
     const itemSummary = items.length
-      ? items.map(i => `${i.product} x${i.quantity}`).join("<br>")
+      ? items.map(i => `${escapeHtml(i.product)} x${escapeHtml(i.quantity)}`).join("<br>")
       : "No items";
 
     html += `
-      <div class="order-card" onclick="openOrder('${order.orderId}')">
+      <div class="order-card" onclick="openOrder('${escapeAttr(order.orderId)}')">
         <div class="order-card-top">
-          <strong>#${order.orderId}</strong>
-          <span class="status-pill">${order.status || "No status"}</span>
+          <strong>#${escapeHtml(order.orderId)}</strong>
+          <span class="status-pill">${escapeHtml(order.status || "No status")}</span>
         </div>
 
-        <h3>${order.customerName || "No customer name"}</h3>
+        <h3>${escapeHtml(order.customerName || "No customer name")}</h3>
 
         <div class="order-card-items">
           ${itemSummary}
         </div>
 
         <div class="order-card-meta">
-          <span>${order.shippingMethod || "No method"}</span>
-          <span>${order.paymentStatus || "Payment pending"}</span>
+          <span>${escapeHtml(order.shippingMethod || "No method")}</span>
+          <span>${escapeHtml(order.paymentStatus || "Payment pending")}</span>
         </div>
 
         <div class="assigned-line">
-          Assigned: ${order.assignedTo || "Unassigned"}
+          Assigned: ${escapeHtml(order.assignedTo || "Unassigned")}
         </div>
       </div>
     `;
   });
 
   container.innerHTML = html;
+}
+
+function populateStatusFilter() {
+  const select = document.getElementById("statusFilter");
+
+  if (!select) return;
+
+  const currentValue = select.value;
+
+  const statuses = [...new Set(
+    orders
+      .map(order => order.status)
+      .filter(Boolean)
+  )].sort();
+
+  select.innerHTML = `<option value="">All statuses</option>`;
+
+  statuses.forEach(status => {
+    const option = document.createElement("option");
+    option.value = status;
+    option.textContent = status;
+    select.appendChild(option);
+  });
+
+  select.value = currentValue;
+}
+
+function clearFilters() {
+  document.getElementById("statusFilter").value = "";
+  document.getElementById("customerSearch").value = "";
+  document.getElementById("dateFrom").value = "";
+  document.getElementById("dateTo").value = "";
+
+  renderOrderCards();
+}
+
+function getOrderDate(order) {
+  if (order.lastUpdated) {
+    const date = new Date(order.lastUpdated);
+    return isNaN(date.getTime()) ? null : date;
+  }
+
+  return null;
 }
 
 function openOrder(orderId) {
@@ -184,7 +285,7 @@ function openOrder(orderId) {
   const items = Array.isArray(currentOrder.items) ? currentOrder.items : [];
 
   document.getElementById("detailItems").innerHTML = items.length
-    ? items.map(i => `<div class="item-row">${i.product} <strong>x${i.quantity}</strong></div>`).join("")
+    ? items.map(i => `<div class="item-row">${escapeHtml(i.product)} <strong>x${escapeHtml(i.quantity)}</strong></div>`).join("")
     : "<p>No items</p>";
 
   populateStaffDropdown();
@@ -206,7 +307,7 @@ function populateStaffDropdown() {
   let html = `<option value="">Unassigned</option>`;
 
   staffList.forEach(name => {
-    html += `<option value="${name}">${name}</option>`;
+    html += `<option value="${escapeAttr(name)}">${escapeHtml(name)}</option>`;
   });
 
   select.innerHTML = html;
@@ -274,7 +375,20 @@ function markCompleted() {
 }
 
 function formatMultiline(text) {
-  return String(text).replace(/\n/g, "<br>");
+  return escapeHtml(String(text)).replace(/\n/g, "<br>");
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value).replace(/`/g, "&#096;");
 }
 </script>
 
