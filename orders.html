@@ -37,7 +37,6 @@ fetch(API_URL, {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ action: "listOrders" })
 })
-})
 .then(r => r.json())
 .then(data => {
   renderOrders(data.orders);
