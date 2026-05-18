@@ -181,9 +181,20 @@ function submitOrder() {
     body: JSON.stringify(payload)
   })
   .then(r => r.json())
-  .then(() => {
+  .then(data => {
+    console.log("Submit response:", data);
+  
+    if (!data.success) {
+      alert("Order was not saved: " + data.message);
+      return;
+    }
+  
     alert("Order submitted!");
     window.location.href = "orders.html";
+  })
+  .catch(err => {
+    console.error("Submit error:", err);
+    alert("Could not submit order. Check the console.");
   });
 }
 </script>
