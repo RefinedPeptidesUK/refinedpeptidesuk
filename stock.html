@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock Monitor</title>
+  <link rel="stylesheet" href="style.css?v=25">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<div class="app-header">
+  <img class="logo" src="logo.png" alt="Refined Peptides UK">
+
+  <nav class="desktop-nav">
+    <a href="index.html">New Order</a>
+    <a href="orders.html">Orders</a>
+    <a href="stock.html">Stock</a>
+  </nav>
+</div>
+
+<nav id="mobileNav" class="mobile-bottom-nav">
+  <a href="index.html">New Order</a>
+  <a href="orders.html">Orders</a>
+  <a href="stock.html">Stock</a>
+</nav>
+
+<div class="container">
+  <h2 class="page-title">Stock</h2>
+
+  <div class="stock-tools">
+    <input
+      id="stockSearch"
+      type="text"
+      placeholder="Search product..."
+      oninput="renderStockCards()"
+    >
+
+    <select id="stockFilter" onchange="renderStockCards()">
+      <option value="">All stock</option>
+      <option value="low">Low stock only</option>
+      <option value="unprepared">Has unprepared stock</option>
+      <option value="sam">Sam has stock</option>
+      <option value="tyrun">Tyrun has stock</option>
+    </select>
+  </div>
+
+  <div id="stockContainer">Loading stock…</div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzPrGq5XHiUMogsGtEMUFN3wr1aTFEYh8o-tgl3uVkGHWMk_eYcYl2Kz6pOXcRBFsP-/exec";
+
+let stockItems = [];
+
+loadStock();
+
+function loadStock() {
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ action: "listStock" })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.success) {
+      document.getElementById("stockContainer").innerHTML =
+        `<p>Error: ${data.message}</p>`;
+      return;
+    }
+
+    stockItems = data.stock || [];
+    renderStockCards();
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("stockContainer").innerHTML =
+      "<p>Could not load stock.</p>";
+  });
+}
+
+function renderStockCards() {
+  const container = document.getElementById("stockContainer");
+  const search = document.getElementById("stockSearch").value.toLowerCase().trim();
+  const filter = document.getElementById("stockFilter").value;
+
+  let filtered = [...stockItems];
+
+  if (search) {
+    filtered = filtered.filter(item =>
+      String(item.productName || "").toLowerCase().includes(search) ||
+      String(item.sku || "").toLowerCase().includes(search)
+    );
+  }
+
+  if (filter === "low") {
+    filtered = filtered.filter(item => String(item.warning || "").toLowerCase().includes("low"));
+  }
+
+  if (filter === "unprepared") {
+    filtered = filtered.filter(item => Number(item.unpreparedStock) > 0);
+  }
+
+  if (filter === "sam") {
+    filtered = filtered.filter(item => Number(item.samStock) > 0);
+  }
+
+  if (filter === "tyrun") {
+    filtered = filtered.filter(item => Number(item.tyrunStock) > 0);
+  }
+
+  if (!filtered.length) {
+    container.innerHTML = "<p>No stock matches your filters.</p>";
+    return;
+  }
+
+  let html = "";
+
+  filtered.forEach(item => {
+    const isLow = String(item.warning || "").toLowerCase().includes("low");
+
+    html += `
+      <div class="stock-card ${isLow ? "stock-low" : ""}">
+        <div class="stock-card-top">
+          <div>
+            <h3>${escapeHtml(item.productName)}</h3>
+            <span>${escapeHtml(item.sku)}</span>
+          </div>
+
+          ${isLow ? `<span class="status-pill low-pill">LOW</span>` : ""}
+        </div>
+
+        <div class="stock-grid">
+          <div class="stock-box">
+            <strong>${escapeHtml(item.unpreparedStock)}</strong>
+            <span>Unprepared</span>
+          </div>
+
+          <div class="stock-box">
+            <strong>${escapeHtml(item.samStock)}</strong>
+            <span>Sam</span>
+          </div>
+
+          <div class="stock-box">
+            <strong>${escapeHtml(item.tyrunStock)}</strong>
+            <span>Tyrun</span>
+          </div>
+
+          <div class="stock-box total">
+            <strong>${escapeHtml(item.totalReadyStock)}</strong>
+            <span>Ready</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+</script>
+
+</body>
+</html>
