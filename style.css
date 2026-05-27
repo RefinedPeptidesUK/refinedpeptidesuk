@@ -23,6 +23,7 @@
   --text-muted: #9ca3af;
 
   --border: rgba(147,197,253,0.12);
+  --border-soft: rgba(147,197,253,0.08);
   --border-bright: rgba(96,165,250,0.38);
 
   --radius: 22px;
@@ -49,9 +50,11 @@ body {
 
 .app-header {
   width: 100%;
+
   padding: 18px 20px 14px;
 
   background: rgba(17,24,39,0.94);
+
   border-bottom: 1px solid var(--border);
 
   display: flex;
@@ -74,7 +77,9 @@ body {
 
 .desktop-nav a {
   color: var(--blue-soft);
+
   text-decoration: none;
+
   font-size: 15px;
   font-weight: 700;
 }
@@ -83,7 +88,6 @@ body {
   color: var(--blue-pale);
 }
 
-/* hidden on desktop */
 .mobile-bottom-nav {
   display: none;
 }
@@ -95,7 +99,9 @@ body {
 .container {
   width: 100%;
   max-width: 760px;
+
   margin: 0 auto;
+
   padding: 28px 18px 44px;
 }
 
@@ -115,7 +121,9 @@ body {
 
 .card,
 .order-card,
-.filter-panel {
+.filter-panel,
+.stock-card,
+.quick-stock-list {
   background:
     linear-gradient(
       180deg,
@@ -124,6 +132,7 @@ body {
     );
 
   border: 1px solid var(--border);
+
   border-radius: var(--radius);
 
   box-shadow: var(--shadow);
@@ -132,17 +141,18 @@ body {
 .card {
   max-width: 520px;
   margin: 0 auto;
+
   padding: 28px;
 }
 
 .card h2 {
   margin: 0 0 26px;
 
+  color: var(--blue-pale);
+
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
-
-  color: var(--blue-pale);
 }
 
 /* =========================================
@@ -154,10 +164,10 @@ label {
 
   margin: 18px 0 8px;
 
+  color: #cbd5e1;
+
   font-size: 14px;
   font-weight: 700;
-
-  color: #cbd5e1;
 }
 
 .card label:first-of-type,
@@ -170,12 +180,12 @@ select,
 textarea {
   width: 100%;
 
-  padding: 15px 14px;
-
   min-height: 50px;
 
-  border-radius: 14px;
+  padding: 15px 14px;
+
   border: 1px solid var(--border);
+  border-radius: 14px;
 
   background: rgba(15,23,42,0.94);
 
@@ -197,6 +207,7 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: rgba(147,197,253,0.5);
+
   box-shadow: 0 0 0 3px rgba(45,95,211,0.12);
 }
 
@@ -211,22 +222,14 @@ textarea {
 
 button {
   width: 100%;
-
   min-height: 52px;
-
-  padding: 15px 18px;
 
   margin-top: 14px;
 
+  padding: 15px 18px;
+
   border: none;
   border-radius: 16px;
-
-  font-size: 16px;
-  font-weight: 800;
-
-  cursor: pointer;
-
-  color: #f8fbff;
 
   background:
     linear-gradient(
@@ -234,6 +237,13 @@ button {
       #2d5fd3,
       #2147a8
     );
+
+  color: #f8fbff;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  cursor: pointer;
 
   box-shadow: 0 6px 18px rgba(32,72,170,0.22);
 
@@ -256,14 +266,14 @@ button:hover {
 
   padding: 13px 14px;
 
-  font-size: 14px;
-
   background:
     linear-gradient(
       135deg,
       #243f8f,
       #1a3578
     );
+
+  font-size: 14px;
 }
 
 /* =========================================
@@ -286,15 +296,13 @@ button:hover {
   grid-template-columns: 1fr 90px;
   gap: 10px;
 
+  margin-bottom: 14px;
+  padding: 14px;
+
   background: rgba(15,23,42,0.62);
 
   border: 1px solid rgba(147,197,253,0.10);
-
   border-radius: 18px;
-
-  padding: 14px;
-
-  margin-bottom: 14px;
 }
 
 .product-row select,
@@ -308,23 +316,21 @@ button:hover {
 
 #noteContainer {
   margin-top: 18px;
-
   padding: 16px;
 
   background: rgba(15,23,42,0.62);
 
   border: 1px solid rgba(147,197,253,0.10);
-
   border-radius: 18px;
 }
 
 .card > button:last-child {
-  margin-top: 24px;
   min-height: 56px;
+  margin-top: 24px;
 }
 
 /* =========================================
-   ORDER FILTER BUTTON
+   ORDER CARDS
 ========================================= */
 
 .filter-open-btn {
@@ -332,13 +338,9 @@ button:hover {
   margin-bottom: 28px;
 }
 
-/* =========================================
-   ORDER CARDS
-========================================= */
-
 .order-card {
-  padding: 20px;
   margin-bottom: 20px;
+  padding: 20px;
 
   cursor: pointer;
 
@@ -409,15 +411,14 @@ button:hover {
 .status-pill {
   flex-shrink: 0;
 
+  padding: 8px 13px;
+
   background: rgba(45,95,211,0.14);
 
   border: 1px solid rgba(147,197,253,0.22);
+  border-radius: 999px;
 
   color: var(--blue-pale);
-
-  padding: 8px 13px;
-
-  border-radius: 999px;
 
   font-size: 12px;
   font-weight: 800;
@@ -493,9 +494,9 @@ button:hover {
 
   padding: 10px 14px;
 
-  border-radius: 14px;
-
   background: rgba(30,41,59,0.95);
+
+  border-radius: 14px;
 
   box-shadow: none;
 
@@ -547,19 +548,13 @@ button:hover {
   line-height: 1.7;
 }
 
-/* =========================================
-   ITEM ROWS
-========================================= */
-
 .item-row {
   margin-bottom: 10px;
-
   padding: 14px;
 
   background: rgba(17,24,39,0.9);
 
   border: 1px solid rgba(147,197,253,0.10);
-
   border-radius: 16px;
 
   color: white;
@@ -568,12 +563,12 @@ button:hover {
 }
 
 /* =========================================
-   FILTER PANEL LEGACY / DESKTOP SAFE
+   FILTER PANEL
 ========================================= */
 
 .filter-panel {
-  padding: 18px;
   margin-bottom: 24px;
+  padding: 18px;
 }
 
 .filter-panel input,
@@ -582,336 +577,7 @@ button:hover {
 }
 
 /* =========================================
-   MOBILE BOTTOM NAV
-========================================= */
-
-@media (max-width: 640px) {
-
-  body {
-    padding-bottom: 104px;
-  }
-
-  .app-header {
-    padding: 18px 16px;
-  }
-
-  .logo {
-    height: 58px;
-  }
-
-  .desktop-nav {
-    display: none;
-  }
-
-  .mobile-bottom-nav {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 5000;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-
-    padding: 8px 10px 10px;
-
-    background: rgba(10,16,28,0.99);
-    border-top: 1px solid rgba(147,197,253,0.16);
-
-    box-shadow:
-      0 -8px 24px rgba(0,0,0,0.42),
-      0 0 0 1px rgba(255,255,255,0.02);
-
-    backdrop-filter: blur(12px);
-  }
-
-  .mobile-bottom-nav a {
-    text-align: center;
-    color: var(--blue-pale);
-    text-decoration: none;
-
-    font-size: 0;
-    font-weight: 800;
-
-    padding: 11px 8px;
-    border-radius: 14px;
-
-    background: transparent;
-    border: 1px solid transparent;
-  }
-
-  .mobile-bottom-nav a:nth-child(1)::before {
-    content: "＋";
-  }
-
-  .mobile-bottom-nav a:nth-child(2)::before {
-    content: "▤";
-  }
-
-  .mobile-bottom-nav a:nth-child(3)::before {
-    content: "□";
-  }
-
-  .mobile-bottom-nav a::before {
-    display: block;
-
-    font-size: 24px;
-    line-height: 1;
-
-    color: var(--blue-pale);
-  }
-
-  .mobile-bottom-nav a:hover {
-    background: rgba(45,95,211,0.14);
-    border-color: rgba(147,197,253,0.10);
-  }
-
-  body.detail-open .mobile-bottom-nav {
-    display: none;
-  }
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 640px) {
-
-  .container {
-    max-width: 100%;
-    padding: 26px 18px 42px;
-  }
-
-  .page-title {
-    margin-bottom: 30px;
-
-    font-size: 34px;
-    line-height: 1.1;
-  }
-
-  .card {
-    max-width: 100%;
-    padding: 22px;
-    border-radius: 24px;
-  }
-
-  .card h2 {
-    font-size: 26px;
-  }
-
-  .product-row {
-    grid-template-columns: 1fr;
-    padding: 14px;
-  }
-
-  .filter-open-btn {
-    margin-bottom: 34px;
-  }
-
-  .order-card {
-    padding: 20px;
-    margin-bottom: 24px;
-    border-radius: 24px;
-  }
-
-  .order-card h3 {
-    font-size: 23px;
-  }
-
-  .order-card-items {
-    font-size: 18px;
-  }
-
-  .order-card-meta {
-    font-size: 17px;
-  }
-
-  .assigned-line {
-    font-size: 16px;
-  }
-
-  .status-pill {
-    font-size: 15px;
-    padding: 9px 15px;
-  }
-
-  input,
-  select,
-  textarea {
-    font-size: 16px;
-  }
-
-  button {
-    font-size: 17px;
-  }
-
-  .detail-content,
-  .filter-content {
-    padding: 24px 18px 44px;
-  }
-
-  .detail-content h3 {
-    font-size: 28px;
-  }
-}
-
-/* =========================================
-   STOCK MONITOR
-========================================= */
-
-.stock-tools {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 12px;
-
-  margin-bottom: 24px;
-}
-
-.stock-card {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(17,24,39,0.98),
-      rgba(15,23,42,0.98)
-    );
-
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-
-  padding: 20px;
-  margin-bottom: 20px;
-
-  box-shadow: var(--shadow);
-}
-
-.stock-card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
-
-  margin-bottom: 18px;
-}
-
-.stock-card h3 {
-  margin: 0 0 6px;
-
-  color: white;
-
-  font-size: 20px;
-  font-weight: 800;
-}
-
-.stock-card-top span {
-  color: var(--blue-soft);
-  font-size: 13px;
-}
-
-.stock-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.stock-box {
-  background: rgba(15,23,42,0.72);
-
-  border: 1px solid rgba(147,197,253,0.10);
-
-  border-radius: 16px;
-
-  padding: 14px 10px;
-
-  text-align: center;
-}
-
-.stock-box strong {
-  display: block;
-
-  color: var(--blue-pale);
-
-  font-size: 24px;
-  font-weight: 900;
-
-  margin-bottom: 4px;
-}
-
-.stock-box span {
-  color: var(--text-muted);
-
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.stock-box.total {
-  background: rgba(45,95,211,0.14);
-  border-color: rgba(147,197,253,0.18);
-}
-
-.stock-low {
-  border-color: rgba(248,113,113,0.35);
-}
-
-.low-pill {
-  background: rgba(248,113,113,0.14);
-  border-color: rgba(248,113,113,0.32);
-  color: #fecaca;
-}
-
-@media (max-width: 640px) {
-
-  .stock-tools {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .stock-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stock-card h3 {
-    font-size: 22px;
-  }
-
-  .stock-box strong {
-    font-size: 28px;
-  }
-}
-
-/* =========================================
-   STOCK TRANSFER CONTROLS
-========================================= */
-
-.stock-transfer {
-  margin-top: 18px;
-  padding-top: 16px;
-
-  border-top: 1px solid rgba(147,197,253,0.10);
-}
-
-.stock-transfer input {
-  margin-bottom: 10px;
-}
-
-.transfer-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.transfer-buttons button {
-  margin-top: 0;
-}
-
-@media (max-width: 640px) {
-  .transfer-buttons {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================================
-   STOCK VIEW TOGGLE
+   STOCK PAGE: TOGGLE + FILTERS
 ========================================= */
 
 .view-toggle {
@@ -934,9 +600,9 @@ button:hover {
 
   border: 1px solid rgba(147,197,253,0.10);
 
-  box-shadow: none;
-
   color: var(--text-soft);
+
+  box-shadow: none;
 }
 
 .toggle-btn.active {
@@ -951,13 +617,8 @@ button:hover {
 
   color: white;
 
-  box-shadow:
-    0 8px 22px rgba(16,30,60,0.35);
+  box-shadow: 0 8px 22px rgba(16,30,60,0.35);
 }
-
-/* =========================================
-   STOCK SEARCH/FILTER
-========================================= */
 
 .stock-tools {
   display: grid;
@@ -968,13 +629,19 @@ button:hover {
 }
 
 /* =========================================
-   QUICK VIEW - COMPACT MOBILE FRIENDLY
+   STOCK PAGE: QUICK VIEW
 ========================================= */
 
 .quick-stock-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .quick-stock-header {
@@ -982,9 +649,14 @@ button:hover {
 }
 
 .quick-stock-row {
+  width: 100%;
+  min-width: 0;
+
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 8px;
+
+  padding: 14px;
 
   background:
     linear-gradient(
@@ -996,20 +668,18 @@ button:hover {
   border: 1px solid var(--border);
   border-radius: 18px;
 
-  padding: 14px;
-
   box-shadow: 0 8px 22px rgba(0,0,0,0.24);
 }
 
 .quick-product strong {
   display: block;
 
+  margin-bottom: 3px;
+
   color: white;
 
   font-size: 15px;
   font-weight: 800;
-
-  margin-bottom: 3px;
 }
 
 .quick-product span {
@@ -1019,8 +689,6 @@ button:hover {
 }
 
 .quick-stock-row > div:not(.quick-product) {
-  position: relative;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1030,7 +698,6 @@ button:hover {
   background: rgba(15,23,42,0.65);
 
   border: 1px solid rgba(147,197,253,0.08);
-
   border-radius: 12px;
 
   color: white;
@@ -1076,25 +743,12 @@ button:hover {
 }
 
 /* =========================================
-   STOCK CARDS
+   STOCK PAGE: MANAGE CARDS
 ========================================= */
 
 .stock-card {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(17,24,39,0.98),
-      rgba(15,23,42,0.98)
-    );
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius);
-
-  padding: 20px;
   margin-bottom: 20px;
-
-  box-shadow: var(--shadow);
+  padding: 20px;
 }
 
 .stock-card-top {
@@ -1128,13 +782,12 @@ button:hover {
 }
 
 .stock-box {
+  padding: 14px 10px;
+
   background: rgba(15,23,42,0.72);
 
   border: 1px solid rgba(147,197,253,0.10);
-
   border-radius: 16px;
-
-  padding: 14px 10px;
 
   text-align: center;
 }
@@ -1142,12 +795,12 @@ button:hover {
 .stock-box strong {
   display: block;
 
+  margin-bottom: 4px;
+
   color: var(--blue-pale);
 
   font-size: 24px;
   font-weight: 900;
-
-  margin-bottom: 4px;
 }
 
 .stock-box span {
@@ -1167,10 +820,6 @@ button:hover {
   border-color: rgba(248,113,113,0.28);
 }
 
-/* =========================================
-   LOW STOCK PILL
-========================================= */
-
 .low-pill {
   background: rgba(248,113,113,0.12);
 
@@ -1180,7 +829,7 @@ button:hover {
 }
 
 /* =========================================
-   STOCK TRANSFER
+   STOCK PAGE: TRANSFER CONTROLS
 ========================================= */
 
 .stock-transfer {
@@ -1200,10 +849,186 @@ button:hover {
 }
 
 /* =========================================
-   MOBILE
+   MOBILE BOTTOM NAV
 ========================================= */
 
 @media (max-width: 640px) {
+
+  body {
+    padding-bottom: 104px;
+  }
+
+  .app-header {
+    padding: 18px 16px;
+  }
+
+  .logo {
+    height: 58px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5000;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+
+    padding: 8px 10px 10px;
+
+    background: rgba(10,16,28,0.99);
+
+    border-top: 1px solid rgba(147,197,253,0.16);
+
+    box-shadow:
+      0 -8px 24px rgba(0,0,0,0.42),
+      0 0 0 1px rgba(255,255,255,0.02);
+
+    backdrop-filter: blur(12px);
+  }
+
+  .mobile-bottom-nav a {
+    padding: 11px 8px;
+
+    background: transparent;
+
+    border: 1px solid transparent;
+    border-radius: 14px;
+
+    color: var(--blue-pale);
+
+    text-align: center;
+    text-decoration: none;
+
+    font-size: 0;
+    font-weight: 800;
+  }
+
+  .mobile-bottom-nav a:nth-child(1)::before {
+    content: "＋";
+  }
+
+  .mobile-bottom-nav a:nth-child(2)::before {
+    content: "▤";
+  }
+
+  .mobile-bottom-nav a:nth-child(3)::before {
+    content: "□";
+  }
+
+  .mobile-bottom-nav a::before {
+    display: block;
+
+    color: var(--blue-pale);
+
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .mobile-bottom-nav a:hover {
+    background: rgba(45,95,211,0.14);
+
+    border-color: rgba(147,197,253,0.10);
+  }
+
+  body.detail-open .mobile-bottom-nav {
+    display: none;
+  }
+}
+
+/* =========================================
+   MOBILE LAYOUT
+========================================= */
+
+@media (max-width: 640px) {
+
+  .container {
+    max-width: 100%;
+    padding: 26px 18px 42px;
+  }
+
+  .page-title {
+    margin-bottom: 30px;
+
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .card {
+    max-width: 100%;
+
+    padding: 22px;
+
+    border-radius: 24px;
+  }
+
+  .card h2 {
+    font-size: 26px;
+  }
+
+  .product-row {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .filter-open-btn {
+    margin-bottom: 34px;
+  }
+
+  .order-card {
+    margin-bottom: 24px;
+    padding: 20px;
+
+    border-radius: 24px;
+  }
+
+  .order-card h3 {
+    font-size: 23px;
+  }
+
+  .order-card-items {
+    font-size: 18px;
+  }
+
+  .order-card-meta {
+    font-size: 17px;
+  }
+
+  .assigned-line {
+    font-size: 16px;
+  }
+
+  .status-pill {
+    padding: 9px 15px;
+
+    font-size: 15px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 17px;
+  }
+
+  .detail-content,
+  .filter-content {
+    padding: 24px 18px 44px;
+  }
+
+  .detail-content h3 {
+    font-size: 28px;
+  }
 
   .stock-tools {
     grid-template-columns: 1fr;
