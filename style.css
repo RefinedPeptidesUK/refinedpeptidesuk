@@ -629,113 +629,89 @@ button:hover {
 }
 
 /* =========================================
-   STOCK PAGE: QUICK VIEW
+   STOCK PAGE: QUICK VIEW TABLE
 ========================================= */
 
 .quick-stock-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  width: 100%;
+  display: block;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
-/* HEADER ROW */
+.quick-stock-header,
+.quick-stock-row {
+  display: grid;
+  grid-template-columns: minmax(135px, 1fr) 44px 44px 44px 48px;
+  align-items: center;
+  gap: 6px;
+}
 
 .quick-stock-header {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 70px);
-
-  gap: 8px;
-
-  padding: 0 10px;
-
+  padding: 8px 4px;
   color: var(--text-muted);
-
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
 }
 
-/* STOCK ROW */
-
 .quick-stock-row {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 70px);
-
-  align-items: center;
-
-  gap: 8px;
-
-  padding: 14px 12px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(17,24,39,0.98),
-      rgba(15,23,42,0.98)
-    );
-
-  border: 1px solid var(--border);
-
-  border-radius: 18px;
-
-  box-shadow: 0 8px 22px rgba(0,0,0,0.24);
+  padding: 10px 4px;
+  border-bottom: 1px solid rgba(147,197,253,0.08);
 }
 
-/* PRODUCT NAME */
+.quick-stock-row:last-child {
+  border-bottom: none;
+}
 
 .quick-product {
   min-width: 0;
+  cursor: pointer;
 }
 
 .quick-product strong {
   display: block;
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   color: white;
-
   font-size: 14px;
   font-weight: 800;
 }
-
-/* REMOVE DUPLICATE SKU */
 
 .quick-product span {
   display: none;
 }
 
-/* STOCK VALUES */
-
 .quick-stock-row > div:not(.quick-product) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 42px;
-
-  background: rgba(15,23,42,0.65);
-
-  border: 1px solid rgba(147,197,253,0.08);
-  border-radius: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  height: auto;
 
   color: white;
-
-  font-size: 15px;
+  text-align: center;
+  font-size: 14px;
   font-weight: 800;
 }
-
-/* READY COLUMN */
 
 .quick-ready {
   color: var(--blue-pale) !important;
 }
 
-/* LOW STOCK */
-
 .stock-low-row {
-  border-color: rgba(248,113,113,0.28);
+  background: rgba(248,113,113,0.07);
+  border-radius: 10px;
+}
+
+/* highlight when jumping to manage card */
+.stock-highlight {
+  border-color: rgba(147,197,253,0.65) !important;
+  box-shadow:
+    0 0 0 2px rgba(147,197,253,0.14),
+    var(--shadow) !important;
 }
 
 /* =========================================
