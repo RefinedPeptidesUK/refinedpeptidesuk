@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Stock Monitor</title>
-  <link rel="stylesheet" href="style.css?v=26">
+  <link rel="stylesheet" href="style.css?v=27">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -27,15 +27,20 @@
 <div class="container">
   <h2 class="page-title">Stock</h2>
 
+  <div class="view-toggle">
+    <button id="quickBtn" class="toggle-btn active" onclick="setStockView('quick')">Quick View</button>
+    <button id="manageBtn" class="toggle-btn" onclick="setStockView('manage')">Manage Stock</button>
+  </div>
+
   <div class="stock-tools">
     <input
       id="stockSearch"
       type="text"
-      placeholder="Search product..."
-      oninput="renderStockCards()"
+      placeholder="Search product or SKU..."
+      oninput="renderStockViews()"
     >
 
-    <select id="stockFilter" onchange="renderStockCards()">
+    <select id="stockFilter" onchange="renderStockViews()">
       <option value="">All stock</option>
       <option value="low">Low stock only</option>
       <option value="unprepared">Has unprepared stock</option>
@@ -44,13 +49,15 @@
     </select>
   </div>
 
-  <div id="stockContainer">Loading stock…</div>
+  <div id="quickStockContainer">Loading stock…</div>
+  <div id="manageStockContainer" class="hidden"></div>
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzPrGq5XHiUMogsGtEMUFN3wr1aTFEYh8o-tgl3uVkGHWMk_eYcYl2Kz6pOXcRBFsP-/exec";
 
 let stockItems = [];
+let currentView = "quick";
 
 loadStock();
 
@@ -62,23 +69,34 @@ function loadStock() {
   .then(r => r.json())
   .then(data => {
     if (!data.success) {
-      document.getElementById("stockContainer").innerHTML =
+      document.getElementById("quickStockContainer").innerHTML =
         `<p>Error: ${data.message}</p>`;
       return;
     }
 
     stockItems = data.stock || [];
-    renderStockCards();
+    renderStockViews();
   })
   .catch(err => {
     console.error(err);
-    document.getElementById("stockContainer").innerHTML =
+    document.getElementById("quickStockContainer").innerHTML =
       "<p>Could not load stock.</p>";
   });
 }
 
-function renderStockCards() {
-  const container = document.getElementById("stockContainer");
+function setStockView(view) {
+  currentView = view;
+
+  document.getElementById("quickBtn").classList.toggle("active", view === "quick");
+  document.getElementById("manageBtn").classList.toggle("active", view === "manage");
+
+  document.getElementById("quickStockContainer").classList.toggle("hidden", view !== "quick");
+  document.getElementById("manageStockContainer").classList.toggle("hidden", view !== "manage");
+
+  renderStockViews();
+}
+
+function getFilteredStock() {
   const search = document.getElementById("stockSearch").value.toLowerCase().trim();
   const filter = document.getElementById("stockFilter").value;
 
@@ -108,6 +126,60 @@ function renderStockCards() {
   if (filter === "tyrun") {
     filtered = filtered.filter(item => Number(item.tyrunStock) > 0);
   }
+
+  return filtered;
+}
+
+function renderStockViews() {
+  renderQuickView();
+  renderManageView();
+}
+
+function renderQuickView() {
+  const container = document.getElementById("quickStockContainer");
+  const filtered = getFilteredStock();
+
+  if (!filtered.length) {
+    container.innerHTML = "<p>No stock matches your filters.</p>";
+    return;
+  }
+
+  let html = `
+    <div class="quick-stock-list">
+      <div class="quick-stock-header">
+        <span>Product</span>
+        <span>Unprep</span>
+        <span>Sam</span>
+        <span>Tyrun</span>
+        <span>Ready</span>
+      </div>
+  `;
+
+  filtered.forEach(item => {
+    const isLow = String(item.warning || "").toLowerCase().includes("low");
+
+    html += `
+      <div class="quick-stock-row ${isLow ? "stock-low-row" : ""}">
+        <div class="quick-product">
+          <strong>${escapeHtml(item.productName)}</strong>
+          <span>${escapeHtml(item.sku)}</span>
+        </div>
+
+        <div>${escapeHtml(item.unpreparedStock)}</div>
+        <div>${escapeHtml(item.samStock)}</div>
+        <div>${escapeHtml(item.tyrunStock)}</div>
+        <div class="quick-ready">${escapeHtml(item.totalReadyStock)}</div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function renderManageView() {
+  const container = document.getElementById("manageStockContainer");
+  const filtered = getFilteredStock();
 
   if (!filtered.length) {
     container.innerHTML = "<p>No stock matches your filters.</p>";
@@ -152,30 +224,30 @@ function renderStockCards() {
           </div>
         </div>
 
-<div class="stock-transfer">
-  <input
-    id="qty-${escapeAttr(item.sku)}"
-    type="number"
-    min="1"
-    placeholder="Qty to move"
-  >
+        <div class="stock-transfer">
+          <input
+            id="qty-${escapeAttr(item.sku)}"
+            type="number"
+            min="1"
+            placeholder="Qty to move"
+          >
 
-  <select id="from-${escapeAttr(item.sku)}">
-    <option value="Unprepared">From Unprepared</option>
-    <option value="Sam">From Sam</option>
-    <option value="Tyrun">From Tyrun</option>
-  </select>
+          <select id="from-${escapeAttr(item.sku)}">
+            <option value="Unprepared">From Unprepared</option>
+            <option value="Sam">From Sam</option>
+            <option value="Tyrun">From Tyrun</option>
+          </select>
 
-  <select id="to-${escapeAttr(item.sku)}">
-    <option value="Sam">To Sam</option>
-    <option value="Tyrun">To Tyrun</option>
-    <option value="Unprepared">To Unprepared</option>
-  </select>
+          <select id="to-${escapeAttr(item.sku)}">
+            <option value="Sam">To Sam</option>
+            <option value="Tyrun">To Tyrun</option>
+            <option value="Unprepared">To Unprepared</option>
+          </select>
 
-  <button class="small-btn" onclick="transferStock('${escapeAttr(item.sku)}')">
-    Move Stock
-  </button>
-</div>
+          <button class="small-btn" onclick="transferStock('${escapeAttr(item.sku)}')">
+            Move Stock
+          </button>
+        </div>
       </div>
     `;
   });
