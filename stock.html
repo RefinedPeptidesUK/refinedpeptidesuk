@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Stock Monitor</title>
-  <link rel="stylesheet" href="style.css?v=25">
+  <link rel="stylesheet" href="style.css?v=26">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -92,7 +92,9 @@ function renderStockCards() {
   }
 
   if (filter === "low") {
-    filtered = filtered.filter(item => String(item.warning || "").toLowerCase().includes("low"));
+    filtered = filtered.filter(item =>
+      String(item.warning || "").toLowerCase().includes("low")
+    );
   }
 
   if (filter === "unprepared") {
@@ -149,11 +151,68 @@ function renderStockCards() {
             <span>Ready</span>
           </div>
         </div>
+
+        <div class="stock-transfer">
+          <input
+            id="qty-${escapeAttr(item.sku)}"
+            type="number"
+            min="1"
+            placeholder="Qty to move"
+          >
+
+          <div class="transfer-buttons">
+            <button class="small-btn" onclick="transferStock('${escapeAttr(item.sku)}', 'Sam')">
+              Move to Sam
+            </button>
+
+            <button class="small-btn" onclick="transferStock('${escapeAttr(item.sku)}', 'Tyrun')">
+              Move to Tyrun
+            </button>
+          </div>
+        </div>
       </div>
     `;
   });
 
   container.innerHTML = html;
+}
+
+function transferStock(sku, person) {
+  const input = document.getElementById(`qty-${sku}`);
+  const quantity = Number(input.value);
+
+  if (!quantity || quantity <= 0) {
+    alert("Please enter a quantity to move.");
+    return;
+  }
+
+  if (!confirm(`Move ${quantity} of ${sku} to ${person}?`)) {
+    return;
+  }
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "transferStock",
+      sku,
+      person,
+      quantity
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    alert("Stock moved.");
+    loadStock();
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Could not move stock.");
+  });
 }
 
 function escapeHtml(value) {
@@ -163,6 +222,10 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value).replace(/`/g, "&#096;");
 }
 </script>
 
