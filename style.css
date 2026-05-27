@@ -636,27 +636,36 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
-
-  padding: 0;
-
-  background: transparent;
-  border: none;
-  box-shadow: none;
 }
+
+/* HEADER ROW */
 
 .quick-stock-header {
-  display: none;
-}
-
-.quick-stock-row {
-  width: 100%;
-  min-width: 0;
-
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr repeat(4, 70px);
+
   gap: 8px;
 
-  padding: 14px;
+  padding: 0 10px;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* STOCK ROW */
+
+.quick-stock-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 70px);
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 14px 12px;
 
   background:
     linear-gradient(
@@ -666,34 +675,45 @@ button:hover {
     );
 
   border: 1px solid var(--border);
+
   border-radius: 18px;
 
   box-shadow: 0 8px 22px rgba(0,0,0,0.24);
 }
 
+/* PRODUCT NAME */
+
+.quick-product {
+  min-width: 0;
+}
+
 .quick-product strong {
   display: block;
 
-  margin-bottom: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   color: white;
 
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
 }
 
-.quick-product span {
-  color: var(--text-muted);
+/* REMOVE DUPLICATE SKU */
 
-  font-size: 11px;
+.quick-product span {
+  display: none;
 }
+
+/* STOCK VALUES */
 
 .quick-stock-row > div:not(.quick-product) {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
-  padding: 8px 10px;
+  height: 42px;
 
   background: rgba(15,23,42,0.65);
 
@@ -702,44 +722,60 @@ button:hover {
 
   color: white;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
 }
 
-.quick-stock-row > div:nth-child(2)::before {
-  content: "Unprepared";
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.quick-stock-row > div:nth-child(3)::before {
-  content: "Sam";
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.quick-stock-row > div:nth-child(4)::before {
-  content: "Tyrun";
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.quick-stock-row > div:nth-child(5)::before {
-  content: "Ready";
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-}
+/* READY COLUMN */
 
 .quick-ready {
   color: var(--blue-pale) !important;
 }
 
+/* LOW STOCK */
+
 .stock-low-row {
   border-color: rgba(248,113,113,0.28);
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 640px) {
+
+  .quick-stock-header {
+    grid-template-columns: 1.4fr repeat(4, 52px);
+
+    gap: 6px;
+
+    padding: 0 4px;
+
+    font-size: 9px;
+  }
+
+  .quick-stock-row {
+    grid-template-columns: 1.4fr repeat(4, 52px);
+
+    gap: 6px;
+
+    padding: 10px 8px;
+
+    border-radius: 16px;
+  }
+
+  .quick-product strong {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .quick-stock-row > div:not(.quick-product) {
+    height: 38px;
+
+    font-size: 13px;
+
+    border-radius: 10px;
+  }
 }
 
 /* =========================================
