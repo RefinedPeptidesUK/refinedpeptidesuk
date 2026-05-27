@@ -878,3 +878,34 @@ button:hover {
     font-size: 28px;
   }
 }
+
+/* =========================================
+   STOCK TRANSFER CONTROLS
+========================================= */
+
+.stock-transfer {
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid rgba(147,197,253,0.10);
+}
+
+.stock-transfer input {
+  margin-bottom: 10px;
+}
+
+.transfer-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.transfer-buttons button {
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .transfer-buttons {
+    grid-template-columns: 1fr;
+  }
+}
