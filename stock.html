@@ -160,9 +160,8 @@ function renderQuickView() {
 
     html += `
       <div class="quick-stock-row ${isLow ? "stock-low-row" : ""}">
-        <div class="quick-product">
+        <div class="quick-product" onclick="openManageItem('${escapeAttr(item.sku)}')">
           <strong>${escapeHtml(item.productName)}</strong>
-          <span>${escapeHtml(item.sku)}</span>
         </div>
 
         <div>${escapeHtml(item.unpreparedStock)}</div>
@@ -192,7 +191,7 @@ function renderManageView() {
     const isLow = String(item.warning || "").toLowerCase().includes("low");
 
     html += `
-      <div class="stock-card ${isLow ? "stock-low" : ""}">
+      <div class="stock-card ${isLow ? "stock-low" : ""}" id="manage-${escapeAttr(item.sku)}">
         <div class="stock-card-top">
           <div>
             <h3>${escapeHtml(item.productName)}</h3>
@@ -253,6 +252,22 @@ function renderManageView() {
   });
 
   container.innerHTML = html;
+}
+
+function openManageItem(sku) {
+  setStockView("manage");
+
+  setTimeout(() => {
+    const card = document.getElementById(`manage-${sku}`);
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "start" });
+      card.classList.add("stock-highlight");
+
+      setTimeout(() => {
+        card.classList.remove("stock-highlight");
+      }, 1400);
+    }
+  }, 100);
 }
 
 function transferStock(sku) {
