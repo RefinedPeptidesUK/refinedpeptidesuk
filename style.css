@@ -909,3 +909,322 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================
+   STOCK VIEW TOGGLE
+========================================= */
+
+.view-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+
+  margin-bottom: 22px;
+}
+
+.toggle-btn {
+  margin-top: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,28,42,0.98),
+      rgba(15,23,42,0.98)
+    );
+
+  border: 1px solid rgba(147,197,253,0.10);
+
+  box-shadow: none;
+
+  color: var(--text-soft);
+}
+
+.toggle-btn.active {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(41,72,130,0.95),
+      rgba(28,52,105,0.98)
+    );
+
+  border-color: rgba(147,197,253,0.18);
+
+  color: white;
+
+  box-shadow:
+    0 8px 22px rgba(16,30,60,0.35);
+}
+
+/* =========================================
+   STOCK SEARCH/FILTER
+========================================= */
+
+.stock-tools {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 12px;
+
+  margin-bottom: 24px;
+}
+
+/* =========================================
+   QUICK VIEW TABLE
+========================================= */
+
+.quick-stock-list {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,24,39,0.98),
+      rgba(15,23,42,0.98)
+    );
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow);
+}
+
+.quick-stock-header,
+.quick-stock-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 70px 70px 70px 70px;
+
+  gap: 10px;
+
+  align-items: center;
+}
+
+.quick-stock-header {
+  padding: 16px 18px;
+
+  background: rgba(255,255,255,0.03);
+
+  border-bottom: 1px solid rgba(147,197,253,0.08);
+
+  font-size: 12px;
+  font-weight: 800;
+
+  color: var(--blue-soft);
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.quick-stock-row {
+  padding: 16px 18px;
+
+  border-bottom: 1px solid rgba(147,197,253,0.06);
+
+  transition: 0.2s;
+}
+
+.quick-stock-row:last-child {
+  border-bottom: none;
+}
+
+.quick-stock-row:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.quick-product strong {
+  display: block;
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  margin-bottom: 4px;
+}
+
+.quick-product span {
+  color: var(--text-muted);
+
+  font-size: 12px;
+}
+
+.quick-stock-row > div:not(.quick-product) {
+  text-align: center;
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.quick-ready {
+  color: var(--blue-pale) !important;
+}
+
+.stock-low-row {
+  background: rgba(120,20,20,0.08);
+}
+
+/* =========================================
+   STOCK CARDS
+========================================= */
+
+.stock-card {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,24,39,0.98),
+      rgba(15,23,42,0.98)
+    );
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  padding: 20px;
+  margin-bottom: 20px;
+
+  box-shadow: var(--shadow);
+}
+
+.stock-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+
+  margin-bottom: 18px;
+}
+
+.stock-card h3 {
+  margin: 0 0 6px;
+
+  color: white;
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.stock-card-top span {
+  color: var(--blue-soft);
+
+  font-size: 13px;
+}
+
+.stock-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.stock-box {
+  background: rgba(15,23,42,0.72);
+
+  border: 1px solid rgba(147,197,253,0.10);
+
+  border-radius: 16px;
+
+  padding: 14px 10px;
+
+  text-align: center;
+}
+
+.stock-box strong {
+  display: block;
+
+  color: var(--blue-pale);
+
+  font-size: 24px;
+  font-weight: 900;
+
+  margin-bottom: 4px;
+}
+
+.stock-box span {
+  color: var(--text-muted);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stock-box.total {
+  background: rgba(38,60,112,0.18);
+
+  border-color: rgba(147,197,253,0.14);
+}
+
+.stock-low {
+  border-color: rgba(248,113,113,0.28);
+}
+
+/* =========================================
+   LOW STOCK PILL
+========================================= */
+
+.low-pill {
+  background: rgba(248,113,113,0.12);
+
+  border: 1px solid rgba(248,113,113,0.22);
+
+  color: #fecaca;
+}
+
+/* =========================================
+   STOCK TRANSFER
+========================================= */
+
+.stock-transfer {
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid rgba(147,197,253,0.08);
+}
+
+.stock-transfer input,
+.stock-transfer select {
+  margin-bottom: 10px;
+}
+
+.stock-transfer button {
+  margin-top: 6px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 640px) {
+
+  .stock-tools {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .view-toggle {
+    gap: 8px;
+  }
+
+  .toggle-btn {
+    font-size: 14px;
+  }
+
+  .quick-stock-list {
+    overflow-x: auto;
+  }
+
+  .quick-stock-header,
+  .quick-stock-row {
+    min-width: 620px;
+  }
+
+  .stock-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stock-card h3 {
+    font-size: 22px;
+  }
+
+  .stock-box strong {
+    font-size: 28px;
+  }
+}
