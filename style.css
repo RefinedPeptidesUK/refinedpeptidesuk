@@ -643,22 +643,23 @@ button:hover {
 .quick-stock-header,
 .quick-stock-row {
   display: grid;
-  grid-template-columns: minmax(135px, 1fr) 44px 44px 44px 48px;
+  grid-template-columns: minmax(120px, 1.6fr) 46px 40px 46px 46px;
   align-items: center;
-  gap: 6px;
+  column-gap: 6px;
 }
 
 .quick-stock-header {
-  padding: 8px 4px;
-  color: var(--text-muted);
+  padding: 0 4px 8px;
+  color: #b8c7dd;
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: uppercase;
 }
 
 .quick-stock-row {
-  padding: 10px 4px;
-  border-bottom: 1px solid rgba(147,197,253,0.08);
+  min-height: 48px;
+  padding: 9px 4px;
+  border-bottom: 1px solid rgba(147,197,253,0.11);
 }
 
 .quick-stock-row:last-child {
@@ -677,7 +678,7 @@ button:hover {
   white-space: nowrap;
 
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -686,27 +687,31 @@ button:hover {
 }
 
 .quick-stock-row > div:not(.quick-product) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 0;
+  padding: 0;
+
   background: none;
   border: none;
-  padding: 0;
-  height: auto;
 
   color: white;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
 }
 
 .quick-ready {
-  color: var(--blue-pale) !important;
+  color: #dbeafe !important;
 }
 
 .stock-low-row {
-  background: rgba(248,113,113,0.07);
+  background: rgba(248,113,113,0.08);
   border-radius: 10px;
 }
 
-/* highlight when jumping to manage card */
 .stock-highlight {
   border-color: rgba(147,197,253,0.65) !important;
   box-shadow:
@@ -956,114 +961,124 @@ button:hover {
 }
 
 /* =========================================
-   MOBILE LAYOUT
+   MOBILE LAYOUT - TIGHTER APP VIEW
 ========================================= */
 
 @media (max-width: 640px) {
 
+  body {
+    padding-bottom: 92px;
+    background:
+      radial-gradient(circle at top, rgba(59,130,246,0.10), transparent 26%),
+      #09111f;
+  }
+
+  .app-header {
+    padding: 14px 14px 12px;
+  }
+
+  .logo {
+    height: 48px;
+  }
+
   .container {
     max-width: 100%;
-    padding: 26px 18px 42px;
+    padding: 18px 14px 28px;
   }
 
   .page-title {
-    margin-bottom: 30px;
-
-    font-size: 34px;
-    line-height: 1.1;
+    margin-bottom: 18px;
+    font-size: 28px;
+    line-height: 1.05;
   }
 
-  .card {
-    max-width: 100%;
-
-    padding: 22px;
-
-    border-radius: 24px;
+  .view-toggle {
+    gap: 8px;
+    margin-bottom: 14px;
   }
 
-  .card h2 {
-    font-size: 26px;
+  .toggle-btn {
+    min-height: 46px;
+    font-size: 14px;
+    border-radius: 14px;
   }
 
-  .product-row {
+  .stock-tools {
     grid-template-columns: 1fr;
-    padding: 14px;
-  }
-
-  .filter-open-btn {
-    margin-bottom: 34px;
-  }
-
-  .order-card {
-    margin-bottom: 24px;
-    padding: 20px;
-
-    border-radius: 24px;
-  }
-
-  .order-card h3 {
-    font-size: 23px;
-  }
-
-  .order-card-items {
-    font-size: 18px;
-  }
-
-  .order-card-meta {
-    font-size: 17px;
-  }
-
-  .assigned-line {
-    font-size: 16px;
-  }
-
-  .status-pill {
-    padding: 9px 15px;
-
-    font-size: 15px;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   input,
   select,
   textarea {
-    font-size: 16px;
+    min-height: 46px;
+    padding: 12px 13px;
+    font-size: 15px;
+    border-color: rgba(147,197,253,0.20);
+    background: rgba(10,18,33,0.98);
   }
 
   button {
+    min-height: 46px;
+    font-size: 15px;
+  }
+
+  .card,
+  .order-card,
+  .stock-card,
+  .quick-stock-row {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(18,30,52,0.98),
+        rgba(11,20,36,0.98)
+      );
+
+    border-color: rgba(147,197,253,0.20);
+  }
+
+  .order-card {
+    padding: 18px;
+    margin-bottom: 16px;
+    border-radius: 20px;
+  }
+
+  .order-card h3 {
+    font-size: 21px;
+  }
+
+  .order-card-items {
     font-size: 17px;
   }
 
-  .detail-content,
-  .filter-content {
-    padding: 24px 18px 44px;
+  .order-card-meta {
+    font-size: 15px;
   }
 
-  .detail-content h3 {
-    font-size: 28px;
-  }
-
-  .stock-tools {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .view-toggle {
-    gap: 8px;
-  }
-
-  .toggle-btn {
+  .assigned-line {
     font-size: 14px;
   }
 
-  .stock-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .status-pill {
+    padding: 7px 12px;
+    font-size: 13px;
   }
 
-  .stock-card h3 {
-    font-size: 22px;
+  .mobile-bottom-nav {
+    padding: 8px 10px 10px;
+    background: #08101d;
+    border-top: 1px solid rgba(147,197,253,0.30);
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.65);
   }
 
-  .stock-box strong {
-    font-size: 28px;
+  .mobile-bottom-nav a {
+    background: rgba(20,38,70,0.75);
+    border: 1px solid rgba(147,197,253,0.18);
+  }
+
+  .mobile-bottom-nav a::before {
+    font-size: 23px;
+    color: #dbeafe;
   }
 }
