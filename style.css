@@ -7,10 +7,10 @@
 }
 
 :root {
-  --bg: #0d1117;
+  --bg: #09111f;
   --bg-soft: #111827;
   --bg-card: #101827;
-  --bg-card-dark: #0f172a;
+  --bg-card-light: #13213a;
 
   --blue: #2d5fd3;
   --blue-dark: #1a3578;
@@ -22,22 +22,21 @@
   --text-soft: #d1d5db;
   --text-muted: #9ca3af;
 
-  --border: rgba(147,197,253,0.12);
-  --border-soft: rgba(147,197,253,0.08);
-  --border-bright: rgba(96,165,250,0.38);
+  --border: rgba(147,197,253,0.18);
+  --border-soft: rgba(147,197,253,0.10);
+  --border-bright: rgba(147,197,253,0.40);
 
-  --radius: 22px;
-  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  --radius: 20px;
+  --shadow: 0 10px 28px rgba(0,0,0,0.34);
 }
 
 body {
   margin: 0;
-  padding: 0;
   min-height: 100vh;
 
   background:
-    radial-gradient(circle at top left, rgba(45,95,211,0.13), transparent 34%),
-    radial-gradient(circle at top right, rgba(147,197,253,0.06), transparent 30%),
+    radial-gradient(circle at top left, rgba(45,95,211,0.14), transparent 34%),
+    radial-gradient(circle at top right, rgba(147,197,253,0.07), transparent 30%),
     var(--bg);
 
   font-family: Arial, sans-serif;
@@ -45,22 +44,20 @@ body {
 }
 
 /* =========================================
-   APP HEADER / NAV
+   HEADER / NAV
 ========================================= */
 
 .app-header {
   width: 100%;
-
   padding: 18px 20px 14px;
 
-  background: rgba(17,24,39,0.94);
-
+  background: rgba(13,24,42,0.96);
   border-bottom: 1px solid var(--border);
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .logo {
@@ -77,9 +74,7 @@ body {
 
 .desktop-nav a {
   color: var(--blue-soft);
-
   text-decoration: none;
-
   font-size: 15px;
   font-weight: 700;
 }
@@ -99,14 +94,12 @@ body {
 .container {
   width: 100%;
   max-width: 760px;
-
   margin: 0 auto;
-
-  padding: 28px 18px 44px;
+  padding: 24px 18px 44px;
 }
 
 .page-title {
-  margin: 0 0 26px;
+  margin: 0 0 22px;
 
   color: var(--blue-pale);
 
@@ -122,17 +115,15 @@ body {
 .card,
 .order-card,
 .filter-panel,
-.stock-card,
-.quick-stock-list {
+.stock-card {
   background:
     linear-gradient(
       180deg,
-      rgba(17,24,39,0.98),
-      rgba(15,23,42,0.98)
+      rgba(18,30,52,0.98),
+      rgba(11,20,36,0.98)
     );
 
   border: 1px solid var(--border);
-
   border-radius: var(--radius);
 
   box-shadow: var(--shadow);
@@ -141,18 +132,16 @@ body {
 .card {
   max-width: 520px;
   margin: 0 auto;
-
-  padding: 28px;
+  padding: 26px;
 }
 
 .card h2 {
-  margin: 0 0 26px;
+  margin: 0 0 24px;
 
   color: var(--blue-pale);
 
   font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.02em;
 }
 
 /* =========================================
@@ -162,7 +151,7 @@ body {
 label {
   display: block;
 
-  margin: 18px 0 8px;
+  margin: 16px 0 8px;
 
   color: #cbd5e1;
 
@@ -179,20 +168,18 @@ input,
 select,
 textarea {
   width: 100%;
-
   min-height: 50px;
 
-  padding: 15px 14px;
+  padding: 14px;
 
   border: 1px solid var(--border);
   border-radius: 14px;
 
-  background: rgba(15,23,42,0.94);
+  background: rgba(8,17,31,0.96);
 
   color: var(--text);
 
   font-size: 16px;
-
   outline: none;
 
   transition: 0.2s;
@@ -200,15 +187,14 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-  color: rgba(209,213,219,0.55);
+  color: rgba(209,213,219,0.48);
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: rgba(147,197,253,0.5);
-
-  box-shadow: 0 0 0 3px rgba(45,95,211,0.12);
+  border-color: rgba(147,197,253,0.52);
+  box-shadow: 0 0 0 3px rgba(45,95,211,0.14);
 }
 
 textarea {
@@ -222,14 +208,13 @@ textarea {
 
 button {
   width: 100%;
-  min-height: 52px;
+  min-height: 50px;
 
   margin-top: 14px;
-
-  padding: 15px 18px;
+  padding: 14px 18px;
 
   border: none;
-  border-radius: 16px;
+  border-radius: 15px;
 
   background:
     linear-gradient(
@@ -252,7 +237,6 @@ button {
 
 button:hover {
   transform: translateY(-1px);
-
   background:
     linear-gradient(
       135deg,
@@ -262,9 +246,9 @@ button:hover {
 }
 
 .small-btn {
-  min-height: 48px;
+  min-height: 46px;
 
-  padding: 13px 14px;
+  padding: 12px 14px;
 
   background:
     linear-gradient(
@@ -283,12 +267,12 @@ button:hover {
 #customerName,
 #staffSelect,
 #orderNote {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 #productList {
-  margin-top: 12px;
-  margin-bottom: 18px;
+  margin-top: 10px;
+  margin-bottom: 16px;
 }
 
 .product-row {
@@ -299,10 +283,10 @@ button:hover {
   margin-bottom: 14px;
   padding: 14px;
 
-  background: rgba(15,23,42,0.62);
+  background: rgba(8,17,31,0.70);
 
-  border: 1px solid rgba(147,197,253,0.10);
-  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
 }
 
 .product-row select,
@@ -315,31 +299,31 @@ button:hover {
 }
 
 #noteContainer {
-  margin-top: 18px;
-  padding: 16px;
+  margin-top: 16px;
+  padding: 14px;
 
-  background: rgba(15,23,42,0.62);
+  background: rgba(8,17,31,0.70);
 
-  border: 1px solid rgba(147,197,253,0.10);
-  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
 }
 
 .card > button:last-child {
-  min-height: 56px;
-  margin-top: 24px;
+  min-height: 54px;
+  margin-top: 22px;
 }
 
 /* =========================================
-   ORDER CARDS
+   ORDERS
 ========================================= */
 
 .filter-open-btn {
   margin-top: 0;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .order-card {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   padding: 20px;
 
   cursor: pointer;
@@ -358,7 +342,7 @@ button:hover {
   align-items: flex-start;
   gap: 14px;
 
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .order-card-top strong {
@@ -366,7 +350,7 @@ button:hover {
 }
 
 .order-card h3 {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
 
   color: white;
 
@@ -375,12 +359,12 @@ button:hover {
 }
 
 .order-card-items {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 
   color: var(--text-soft);
 
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.5;
 
   word-break: break-word;
 }
@@ -390,7 +374,7 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 
   color: var(--blue-soft);
 
@@ -404,10 +388,6 @@ button:hover {
   font-size: 14px;
 }
 
-/* =========================================
-   STATUS PILL
-========================================= */
-
 .status-pill {
   flex-shrink: 0;
 
@@ -415,7 +395,7 @@ button:hover {
 
   background: rgba(45,95,211,0.14);
 
-  border: 1px solid rgba(147,197,253,0.22);
+  border: 1px solid rgba(147,197,253,0.24);
   border-radius: 999px;
 
   color: var(--blue-pale);
@@ -442,7 +422,7 @@ button:hover {
     linear-gradient(
       180deg,
       #0f172a,
-      #0d1117
+      #09111f
     );
 }
 
@@ -454,10 +434,6 @@ button:hover {
   display: none;
 }
 
-/* =========================================
-   PANEL HEADERS
-========================================= */
-
 .detail-header,
 .filter-header {
   position: sticky;
@@ -468,9 +444,9 @@ button:hover {
   align-items: center;
   gap: 12px;
 
-  padding: 18px;
+  padding: 16px;
 
-  background: rgba(17,24,39,0.95);
+  background: rgba(13,24,42,0.96);
   backdrop-filter: blur(12px);
 
   border-bottom: 1px solid var(--border);
@@ -488,10 +464,9 @@ button:hover {
 
 .back-btn {
   width: auto;
-  min-height: 44px;
+  min-height: 42px;
 
   margin: 0;
-
   padding: 10px 14px;
 
   background: rgba(30,41,59,0.95);
@@ -503,10 +478,6 @@ button:hover {
   font-size: 14px;
 }
 
-/* =========================================
-   DETAIL CONTENT
-========================================= */
-
 .detail-content,
 .filter-content {
   width: 100%;
@@ -514,11 +485,11 @@ button:hover {
 
   margin: 0 auto;
 
-  padding: 24px 20px 44px;
+  padding: 22px 18px 44px;
 }
 
 .detail-content h3 {
-  margin: 0 0 30px;
+  margin: 0 0 26px;
 
   color: var(--blue-pale);
 
@@ -527,7 +498,7 @@ button:hover {
 }
 
 .info-block {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 .info-block strong {
@@ -545,29 +516,25 @@ button:hover {
 
   color: var(--text-soft);
 
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .item-row {
   margin-bottom: 10px;
   padding: 14px;
 
-  background: rgba(17,24,39,0.9);
+  background: rgba(8,17,31,0.80);
 
-  border: 1px solid rgba(147,197,253,0.10);
-  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
 
   color: white;
 
   line-height: 1.5;
 }
 
-/* =========================================
-   FILTER PANEL
-========================================= */
-
 .filter-panel {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   padding: 18px;
 }
 
@@ -585,7 +552,7 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .toggle-btn {
@@ -594,11 +561,11 @@ button:hover {
   background:
     linear-gradient(
       180deg,
-      rgba(20,28,42,0.98),
-      rgba(15,23,42,0.98)
+      rgba(18,30,52,0.98),
+      rgba(10,18,33,0.98)
     );
 
-  border: 1px solid rgba(147,197,253,0.10);
+  border: 1px solid var(--border);
 
   color: var(--text-soft);
 
@@ -609,23 +576,25 @@ button:hover {
   background:
     linear-gradient(
       135deg,
-      rgba(41,72,130,0.95),
+      rgba(41,72,130,0.98),
       rgba(28,52,105,0.98)
     );
 
-  border-color: rgba(147,197,253,0.18);
+  border-color: rgba(147,197,253,0.34);
 
   color: white;
 
-  box-shadow: 0 8px 22px rgba(16,30,60,0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 8px 22px rgba(16,30,60,0.34);
 }
 
 .stock-tools {
   display: grid;
   grid-template-columns: 1fr 220px;
-  gap: 12px;
+  gap: 10px;
 
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 /* =========================================
@@ -635,6 +604,7 @@ button:hover {
 .quick-stock-list {
   width: 100%;
   display: block;
+
   background: transparent;
   border: none;
   box-shadow: none;
@@ -643,27 +613,37 @@ button:hover {
 .quick-stock-header,
 .quick-stock-row {
   display: grid;
-  grid-template-columns: minmax(120px, 1.6fr) 46px 40px 46px 46px;
+  grid-template-columns: minmax(170px, 1fr) 38px 34px 42px 42px;
   align-items: center;
-  column-gap: 6px;
+  column-gap: 4px;
 }
 
 .quick-stock-header {
-  padding: 0 4px 8px;
+  padding: 0 8px 7px;
+
   color: #b8c7dd;
+
   font-size: 10px;
   font-weight: 900;
   text-transform: uppercase;
 }
 
 .quick-stock-row {
-  min-height: 48px;
-  padding: 9px 4px;
-  border-bottom: 1px solid rgba(147,197,253,0.11);
-}
+  min-height: 46px;
 
-.quick-stock-row:last-child {
-  border-bottom: none;
+  padding: 10px 8px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18,30,52,0.72),
+      rgba(11,20,36,0.72)
+    );
+
+  border: 1px solid rgba(147,197,253,0.12);
+  border-radius: 14px;
+
+  margin-bottom: 6px;
 }
 
 .quick-product {
@@ -673,11 +653,13 @@ button:hover {
 
 .quick-product strong {
   display: block;
+
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   color: white;
+
   font-size: 13px;
   font-weight: 800;
 }
@@ -698,8 +680,10 @@ button:hover {
   border: none;
 
   color: white;
+
   text-align: center;
-  font-size: 13px;
+
+  font-size: 12px;
   font-weight: 800;
 }
 
@@ -708,8 +692,8 @@ button:hover {
 }
 
 .stock-low-row {
-  background: rgba(248,113,113,0.08);
-  border-radius: 10px;
+  border-color: rgba(248,113,113,0.34);
+  background: rgba(248,113,113,0.07);
 }
 
 .stock-highlight {
@@ -720,52 +704,12 @@ button:hover {
 }
 
 /* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 640px) {
-
-  .quick-stock-header {
-    grid-template-columns: 1.4fr repeat(4, 52px);
-
-    gap: 6px;
-
-    padding: 0 4px;
-
-    font-size: 9px;
-  }
-
-  .quick-stock-row {
-    grid-template-columns: 1.4fr repeat(4, 52px);
-
-    gap: 6px;
-
-    padding: 10px 8px;
-
-    border-radius: 16px;
-  }
-
-  .quick-product strong {
-    font-size: 12px;
-    line-height: 1.2;
-  }
-
-  .quick-stock-row > div:not(.quick-product) {
-    height: 38px;
-
-    font-size: 13px;
-
-    border-radius: 10px;
-  }
-}
-
-/* =========================================
    STOCK PAGE: MANAGE CARDS
 ========================================= */
 
 .stock-card {
-  margin-bottom: 20px;
-  padding: 20px;
+  margin-bottom: 18px;
+  padding: 18px;
 }
 
 .stock-card-top {
@@ -774,11 +718,11 @@ button:hover {
   align-items: flex-start;
   gap: 14px;
 
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .stock-card h3 {
-  margin: 0 0 6px;
+  margin: 0;
 
   color: white;
 
@@ -787,24 +731,22 @@ button:hover {
 }
 
 .stock-card-top span {
-  color: var(--blue-soft);
-
-  font-size: 13px;
+  display: none;
 }
 
 .stock-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .stock-box {
-  padding: 14px 10px;
+  padding: 12px 8px;
 
-  background: rgba(15,23,42,0.72);
+  background: rgba(8,17,31,0.76);
 
-  border: 1px solid rgba(147,197,253,0.10);
-  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
 
   text-align: center;
 }
@@ -816,25 +758,25 @@ button:hover {
 
   color: var(--blue-pale);
 
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 900;
 }
 
 .stock-box span {
   color: var(--text-muted);
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 
 .stock-box.total {
-  background: rgba(38,60,112,0.18);
+  background: rgba(38,60,112,0.22);
 
-  border-color: rgba(147,197,253,0.14);
+  border-color: rgba(147,197,253,0.16);
 }
 
 .stock-low {
-  border-color: rgba(248,113,113,0.28);
+  border-color: rgba(248,113,113,0.32);
 }
 
 .low-pill {
@@ -850,10 +792,10 @@ button:hover {
 ========================================= */
 
 .stock-transfer {
-  margin-top: 18px;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
 
-  border-top: 1px solid rgba(147,197,253,0.08);
+  border-top: 1px solid var(--border-soft);
 }
 
 .stock-transfer input,
@@ -862,194 +804,116 @@ button:hover {
 }
 
 .stock-transfer button {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 /* =========================================
-   MOBILE BOTTOM NAV
+   MOBILE
 ========================================= */
 
 @media (max-width: 640px) {
 
   body {
-    padding-bottom: 104px;
-  }
-
-  .app-header {
-    padding: 18px 16px;
-  }
-
-  .logo {
-    height: 58px;
-  }
-
-  .desktop-nav {
-    display: none;
-  }
-
-  .mobile-bottom-nav {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 5000;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-
-    padding: 8px 10px 10px;
-
-    background: rgba(10,16,28,0.99);
-
-    border-top: 1px solid rgba(147,197,253,0.16);
-
-    box-shadow:
-      0 -8px 24px rgba(0,0,0,0.42),
-      0 0 0 1px rgba(255,255,255,0.02);
-
-    backdrop-filter: blur(12px);
-  }
-
-  .mobile-bottom-nav a {
-    padding: 11px 8px;
-
-    background: transparent;
-
-    border: 1px solid transparent;
-    border-radius: 14px;
-
-    color: var(--blue-pale);
-
-    text-align: center;
-    text-decoration: none;
-
-    font-size: 0;
-    font-weight: 800;
-  }
-
-  .mobile-bottom-nav a:nth-child(1)::before {
-    content: "＋";
-  }
-
-  .mobile-bottom-nav a:nth-child(2)::before {
-    content: "▤";
-  }
-
-  .mobile-bottom-nav a:nth-child(3)::before {
-    content: "□";
-  }
-
-  .mobile-bottom-nav a::before {
-    display: block;
-
-    color: var(--blue-pale);
-
-    font-size: 24px;
-    line-height: 1;
-  }
-
-  .mobile-bottom-nav a:hover {
-    background: rgba(45,95,211,0.14);
-
-    border-color: rgba(147,197,253,0.10);
-  }
-
-  body.detail-open .mobile-bottom-nav {
-    display: none;
-  }
-}
-
-/* =========================================
-   MOBILE LAYOUT - TIGHTER APP VIEW
-========================================= */
-
-@media (max-width: 640px) {
-
-  body {
-    padding-bottom: 92px;
+    padding-bottom: 96px;
     background:
       radial-gradient(circle at top, rgba(59,130,246,0.10), transparent 26%),
       #09111f;
   }
 
   .app-header {
-    padding: 14px 14px 12px;
+    padding: 13px 14px 11px;
   }
 
   .logo {
-    height: 48px;
+    height: 46px;
+  }
+
+  .desktop-nav {
+    display: none;
   }
 
   .container {
     max-width: 100%;
-    padding: 18px 14px 28px;
+    padding: 16px 14px 28px;
   }
 
   .page-title {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+
     font-size: 28px;
     line-height: 1.05;
   }
 
   .view-toggle {
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .toggle-btn {
-    min-height: 46px;
-    font-size: 14px;
+    min-height: 44px;
+
     border-radius: 14px;
+
+    font-size: 14px;
   }
 
   .stock-tools {
     grid-template-columns: 1fr;
     gap: 8px;
+
     margin-bottom: 16px;
   }
 
   input,
   select,
   textarea {
-    min-height: 46px;
-    padding: 12px 13px;
+    min-height: 44px;
+
+    padding: 11px 13px;
+
+    border-color: rgba(147,197,253,0.22);
+
+    background: rgba(8,17,31,0.98);
+
     font-size: 15px;
-    border-color: rgba(147,197,253,0.20);
-    background: rgba(10,18,33,0.98);
   }
 
   button {
-    min-height: 46px;
+    min-height: 44px;
     font-size: 15px;
   }
 
-  .card,
-  .order-card,
-  .stock-card,
-  .quick-stock-row {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(18,30,52,0.98),
-        rgba(11,20,36,0.98)
-      );
+  .card {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 22px;
+  }
 
-    border-color: rgba(147,197,253,0.20);
+  .card h2 {
+    font-size: 25px;
+  }
+
+  .product-row {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .filter-open-btn {
+    margin-bottom: 24px;
   }
 
   .order-card {
-    padding: 18px;
-    margin-bottom: 16px;
+    padding: 17px;
+    margin-bottom: 15px;
     border-radius: 20px;
   }
 
   .order-card h3 {
-    font-size: 21px;
+    font-size: 20px;
   }
 
   .order-card-items {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .order-card-meta {
@@ -1065,20 +929,122 @@ button:hover {
     font-size: 13px;
   }
 
+  .detail-content,
+  .filter-content {
+    padding: 22px 16px 44px;
+  }
+
+  .detail-content h3 {
+    font-size: 26px;
+  }
+
+  .quick-stock-header,
+  .quick-stock-row {
+    grid-template-columns: minmax(160px, 1fr) 36px 32px 40px 40px;
+    column-gap: 3px;
+  }
+
+  .quick-stock-header {
+    padding: 0 6px 6px;
+    font-size: 9px;
+  }
+
+  .quick-stock-row {
+    min-height: 44px;
+    padding: 9px 6px;
+    border-radius: 13px;
+    margin-bottom: 5px;
+  }
+
+  .quick-product strong {
+    font-size: 12px;
+  }
+
+  .quick-stock-row > div:not(.quick-product) {
+    font-size: 12px;
+  }
+
+  .stock-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stock-card {
+    padding: 17px;
+    border-radius: 20px;
+  }
+
+  .stock-card h3 {
+    font-size: 21px;
+  }
+
+  .stock-box strong {
+    font-size: 25px;
+  }
+
   .mobile-bottom-nav {
-    padding: 8px 10px 10px;
-    background: #08101d;
-    border-top: 1px solid rgba(147,197,253,0.30);
-    box-shadow: 0 -8px 24px rgba(0,0,0,0.65);
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 5000;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    padding: 8px;
+
+    background: rgba(7,13,24,0.96);
+    border: 1px solid rgba(147,197,253,0.18);
+    border-radius: 22px;
+
+    box-shadow:
+      0 -4px 24px rgba(0,0,0,0.56),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(14px);
   }
 
   .mobile-bottom-nav a {
-    background: rgba(20,38,70,0.75);
-    border: 1px solid rgba(147,197,253,0.18);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 48px;
+
+    border-radius: 16px;
+
+    background: rgba(16,30,55,0.72);
+    border: 1px solid rgba(147,197,253,0.12);
+
+    text-decoration: none;
+    font-size: 0;
+  }
+
+  .mobile-bottom-nav a:nth-child(1)::before {
+    content: "＋";
+  }
+
+  .mobile-bottom-nav a:nth-child(2)::before {
+    content: "≡";
+  }
+
+  .mobile-bottom-nav a:nth-child(3)::before {
+    content: "▦";
   }
 
   .mobile-bottom-nav a::before {
-    font-size: 23px;
     color: #dbeafe;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .mobile-bottom-nav a:hover {
+    background: rgba(45,95,211,0.18);
+    border-color: rgba(147,197,253,0.22);
+  }
+
+  body.detail-open .mobile-bottom-nav {
+    display: none;
   }
 }
