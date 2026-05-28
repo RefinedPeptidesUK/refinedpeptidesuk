@@ -1048,3 +1048,27 @@ button:hover {
     display: none;
   }
 }
+
+.editable-item-row {
+  display: grid;
+  grid-template-columns: 1fr 85px 90px;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.editable-item-row select,
+.editable-item-row input,
+.editable-item-row button {
+  margin: 0;
+}
+
+.remove-item-btn {
+  background: rgba(120, 30, 40, 0.9);
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .editable-item-row {
+    grid-template-columns: 1fr;
+  }
+}
