@@ -169,6 +169,10 @@ let staffList = [];
 let productList = [];
 let currentOrder = null;
 
+let ordersOffset = 0;
+const ORDERS_LIMIT = 25;
+let hasMoreOrders = false;
+
 loadInitialData();
 
 function loadInitialData() {
@@ -186,10 +190,19 @@ function loadInitialData() {
     });
 }
 
-function loadOrders() {
+function loadOrders(loadMore = false) {
+  if (!loadMore) {
+    ordersOffset = 0;
+    orders = [];
+  }
+
   fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify({ action: "listOrders" })
+    body: JSON.stringify({
+      action: "listOrders",
+      limit: ORDERS_LIMIT,
+      offset: ordersOffset
+    })
   })
   .then(r => r.json())
   .then(data => {
@@ -199,7 +212,15 @@ function loadOrders() {
       return;
     }
 
-    orders = data.orders || [];
+    const newOrders = data.orders || [];
+
+    orders = loadMore
+      ? orders.concat(newOrders)
+      : newOrders;
+
+    ordersOffset += newOrders.length;
+    hasMoreOrders = !!data.hasMore;
+
     populateStatusFilter();
     renderOrderCards();
   })
@@ -351,7 +372,15 @@ function renderOrderCards() {
     `;
   });
 
-  container.innerHTML = html;
+  if (hasMoreOrders) {
+  html += `
+    <button class="small-btn load-more-btn" onclick="loadOrders(true)">
+      Load More Orders
+    </button>
+  `;
+}
+
+container.innerHTML = html;
 }
 
 function populateStatusFilter() {
