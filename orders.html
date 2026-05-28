@@ -211,12 +211,23 @@ function loadOrders() {
 }
 
 function renderOrderCards() {
+
   const container = document.getElementById("ordersContainer");
 
-  const statusFilter = document.getElementById("statusFilter").value;
-  const customerSearch = document.getElementById("customerSearch").value.toLowerCase().trim();
-  const dateFrom = document.getElementById("dateFrom").value;
-  const dateTo = document.getElementById("dateTo").value;
+  const statusFilter =
+    document.getElementById("statusFilter").value;
+
+  const customerSearch =
+    document.getElementById("customerSearch")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const dateFrom =
+    document.getElementById("dateFrom").value;
+
+  const dateTo =
+    document.getElementById("dateTo").value;
 
   let filteredOrders = [...orders];
 
@@ -228,65 +239,121 @@ function renderOrderCards() {
 
   if (customerSearch) {
     filteredOrders = filteredOrders.filter(order =>
-      String(order.customerName || "").toLowerCase().includes(customerSearch)
+      String(order.customerName || "")
+        .toLowerCase()
+        .includes(customerSearch)
     );
   }
 
   if (dateFrom) {
     filteredOrders = filteredOrders.filter(order => {
       const orderDate = getOrderDate(order);
-      return orderDate && orderDate >= new Date(dateFrom + "T00:00:00");
+      return orderDate &&
+        orderDate >= new Date(dateFrom + "T00:00:00");
     });
   }
 
   if (dateTo) {
     filteredOrders = filteredOrders.filter(order => {
       const orderDate = getOrderDate(order);
-      return orderDate && orderDate <= new Date(dateTo + "T23:59:59");
+      return orderDate &&
+        orderDate <= new Date(dateTo + "T23:59:59");
     });
   }
 
+  filteredOrders.sort((a, b) => {
+    const aDate = getOrderDate(a)?.getTime() || 0;
+    const bDate = getOrderDate(b)?.getTime() || 0;
+    return bDate - aDate;
+  });
+
   if (!filteredOrders.length) {
-    container.innerHTML = "<p>No orders match your filters.</p>";
+    container.innerHTML =
+      "<p>No orders match your filters.</p>";
     return;
   }
 
   let html = "";
+  let currentDateGroup = "";
 
   filteredOrders.forEach(order => {
-    const items = Array.isArray(order.items) ? order.items : [];
+
+    const orderDate = getOrderDate(order);
+
+    const dateLabel = orderDate
+      ? orderDate.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        })
+      : "Unknown Date";
+
+    if (dateLabel !== currentDateGroup) {
+
+      currentDateGroup = dateLabel;
+
+      html += `
+        <div class="orders-date-group">
+          ${escapeHtml(dateLabel)}
+        </div>
+      `;
+    }
+
+    const items = Array.isArray(order.items)
+      ? order.items
+      : [];
 
     const itemSummary = items.length
-      ? items.map(i => `${escapeHtml(i.product)} x${escapeHtml(i.quantity)}`).join("<br>")
+      ? items
+          .slice(0, 2)
+          .map(i =>
+            `${escapeHtml(i.product)} x${escapeHtml(i.quantity)}`
+          )
+          .join(" • ")
       : "No items";
 
-    const totalLine = order.orderTotal
-      ? `<div class="assigned-line">Total: £${escapeHtml(order.orderTotal)}</div>`
+    const total = order.orderTotal
+      ? `£${escapeHtml(order.orderTotal)}`
       : "";
 
     html += `
-      <div class="order-card" onclick="openOrder('${escapeAttr(order.orderId)}')">
-        <div class="order-card-top">
-          <strong>#${escapeHtml(order.orderId)}</strong>
-          <span class="status-pill">${escapeHtml(order.status || "No status")}</span>
+      <div
+        class="compact-order-card"
+        onclick="openOrder('${escapeAttr(order.orderId)}')"
+      >
+
+        <div class="compact-order-top">
+
+          <div class="compact-order-left">
+
+            <div class="compact-order-id">
+              #${escapeHtml(order.orderId)}
+            </div>
+
+            <div class="compact-order-name">
+              ${escapeHtml(order.customerName || "No customer")}
+            </div>
+
+          </div>
+
+          <div class="compact-order-right">
+
+            <div class="compact-order-total">
+              ${total}
+            </div>
+
+            <div class="compact-status-pill">
+              ${escapeHtml(order.status || "Processing")}
+            </div>
+
+          </div>
+
         </div>
 
-        <h3>${escapeHtml(order.customerName || "No customer name")}</h3>
-
-        <div class="order-card-items">
+        <div class="compact-order-items">
           ${itemSummary}
         </div>
 
-        <div class="order-card-meta">
-          <span>${escapeHtml(order.shippingMethod || "No method")}</span>
-          <span>${escapeHtml(order.paymentStatus || "Payment pending")}</span>
-        </div>
-
-        ${totalLine}
-
-        <div class="assigned-line">
-          Assigned: ${escapeHtml(order.assignedTo || "Unassigned")}
-        </div>
       </div>
     `;
   });
