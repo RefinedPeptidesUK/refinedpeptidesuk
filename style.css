@@ -1204,3 +1204,12 @@ button:hover {
   }
 
 }
+
+.compact-order-assigned {
+  margin-top: 10px;
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+  font-weight: 700;
+}
