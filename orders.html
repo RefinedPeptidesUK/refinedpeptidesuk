@@ -117,11 +117,47 @@
       <option value="Paid via card">Paid via card</option>
     </select>
 
-    <label>Internal Notes</label>
-    <textarea id="detailInternalNotes" placeholder="Staff-only notes..."></textarea>
+<label>Internal Notes</label>
+<textarea id="detailInternalNotes" placeholder="Staff-only notes..."></textarea>
 
-    <button onclick="saveOrderDetails()">Save Changes</button>
-    <button class="small-btn" onclick="markCompleted()">Mark Completed</button>
+<hr class="detail-divider">
+
+<h3 class="detail-section-title">Customer Messaging</h3>
+
+<label>Customer Email</label>
+<input id="detailCustomerEmail" readonly>
+
+<label>Tracking Number</label>
+<div class="tracking-row">
+  <input id="detailTrackingNumber" placeholder="Enter tracking number">
+  <button type="button" class="small-btn tracking-btn" onclick="sendTrackingEmail()">
+    Send Tracking
+  </button>
+</div>
+
+<label>Custom Message</label>
+<textarea
+  id="detailCustomerMessage"
+  placeholder="Write a custom customer update..."
+></textarea>
+
+<button
+  type="button"
+  class="small-btn"
+  onclick="sendCustomerMessage()"
+>
+  Send Customer Message
+</button>
+
+<label>Message History</label>
+<textarea
+  id="detailMessageLog"
+  readonly
+  class="message-log"
+></textarea>
+
+<button onclick="saveOrderDetails()">Save Changes</button>
+<button class="small-btn" onclick="markCompleted()">Mark Completed</button>
   </div>
 </div>
 
@@ -324,6 +360,15 @@ function openOrder(orderId) {
   document.getElementById("detailWooNotes").value = currentOrder.wooOrderNotes || "";
   document.getElementById("detailPaymentMethod").value = currentOrder.paymentMethod || "";
   document.getElementById("detailCouponCode").value = currentOrder.couponCode || "";
+  document.getElementById("detailCustomerEmail").value =
+    currentOrder.customerEmail || "";
+
+  document.getElementById("detailTrackingNumber").value =
+    currentOrder.trackingNumber || "";
+
+  document.getElementById("detailMessageLog").value =
+    currentOrder.customerMessageLog || "";
+
 
   renderEditableItems(currentOrder.items || []);
   populateStaffDropdown();
@@ -523,6 +568,94 @@ function markCompleted() {
   });
 }
 
+function sendTrackingEmail() {
+
+  if (!currentOrder) return;
+
+  const trackingNumber =
+    document.getElementById("detailTrackingNumber").value.trim();
+
+  if (!trackingNumber) {
+    alert("Please enter a tracking number.");
+    return;
+  }
+
+  if (!confirm("Send tracking email to customer?")) return;
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "sendTrackingMessage",
+      orderId: currentOrder.orderId,
+      trackingNumber
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    alert("Tracking email sent.");
+
+    loadOrders();
+
+    document.getElementById("detailMessageLog").value =
+      "Refreshing message history...";
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Could not send tracking email.");
+  });
+}
+
+function sendCustomerMessage() {
+
+  if (!currentOrder) return;
+
+  const message =
+    document.getElementById("detailCustomerMessage").value.trim();
+
+  if (!message) {
+    alert("Please enter a message.");
+    return;
+  }
+
+  if (!confirm("Send message to customer?")) return;
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "sendCustomerMessage",
+      orderId: currentOrder.orderId,
+      message
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+
+    if (!data.success) {
+      alert("Error: " + data.message);
+      return;
+    }
+
+    alert("Customer message sent.");
+
+    document.getElementById("detailCustomerMessage").value = "";
+
+    loadOrders();
+
+    document.getElementById("detailMessageLog").value =
+      "Refreshing message history...";
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Could not send customer message.");
+  });
+}
+
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -535,6 +668,7 @@ function escapeHtml(value) {
 function escapeAttr(value) {
   return escapeHtml(value).replace(/`/g, "&#096;");
 }
+
 </script>
 
 </body>
