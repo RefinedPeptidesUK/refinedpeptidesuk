@@ -335,7 +335,7 @@ function renderOrderCards() {
               </div>
 
               <div class="compact-payment-pill">
-                ${escapeHtml(order.paymentStatus || "Payment pending")}
+                ${escapeHtml(formatPaymentStatus(order.paymentStatus))}
               </div>
             </div>
 
@@ -714,6 +714,16 @@ function sendCustomerMessage() {
     console.error(err);
     alert("Could not send customer message.");
   });
+}
+
+function formatPaymentStatus(status) {
+  const value = String(status || "").trim();
+
+  if (!value || value.toLowerCase() === "pending") {
+    return "Payment pending";
+  }
+
+  return value;
 }
 
 function escapeHtml(value) {
