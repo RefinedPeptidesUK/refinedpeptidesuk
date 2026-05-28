@@ -299,19 +299,6 @@ function renderOrderCards() {
       `;
     }
 
-    const items = Array.isArray(order.items)
-      ? order.items
-      : [];
-
-    const itemSummary = items.length
-      ? items
-          .slice(0, 2)
-          .map(i =>
-            `${escapeHtml(i.product)} x${escapeHtml(i.quantity)}`
-          )
-          .join(" • ")
-      : "No items";
-
     const total = order.orderTotal
       ? `£${escapeHtml(order.orderTotal)}`
       : "";
@@ -350,8 +337,8 @@ function renderOrderCards() {
 
         </div>
 
-        <div class="compact-order-items">
-          ${itemSummary}
+        <div class="compact-order-assigned">
+          Assigned: ${escapeHtml(order.assignedTo || "Unassigned")}
         </div>
 
       </div>
