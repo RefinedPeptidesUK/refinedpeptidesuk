@@ -1072,3 +1072,42 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.detail-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 28px 0;
+}
+
+.detail-section-title {
+  margin: 0 0 18px;
+  font-size: 20px;
+  color: var(--blue-pale);
+}
+
+.tracking-row {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  gap: 10px;
+  align-items: center;
+}
+
+.tracking-btn {
+  margin-top: 0;
+}
+
+.message-log {
+  min-height: 180px;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+@media (max-width: 640px) {
+
+  .tracking-row {
+    grid-template-columns: 1fr;
+  }
+
+}
