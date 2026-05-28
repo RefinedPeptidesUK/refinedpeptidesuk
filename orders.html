@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>View Orders</title>
-  <link rel="stylesheet" href="style.css?v=32">
+  <link rel="stylesheet" href="style.css?v=33">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -101,10 +101,9 @@
     <label>Coupon Code</label>
     <input id="detailCouponCode">
 
-    <div class="info-block">
-      <strong>Items</strong>
-      <div id="detailItems"></div>
-    </div>
+    <label>Items</label>
+    <div id="detailItems"></div>
+    <button class="small-btn" onclick="addEditableItemRow()">+ Add Item</button>
 
     <label>Assign Order</label>
     <select id="detailAssignedTo"></select>
@@ -131,6 +130,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzPrGq5XHiUMogsGtEMUFN3
 
 let orders = [];
 let staffList = [];
+let productList = [];
 let currentOrder = null;
 
 loadInitialData();
@@ -140,6 +140,7 @@ function loadInitialData() {
     .then(r => r.json())
     .then(data => {
       staffList = data.staff || [];
+      productList = data.products || [];
       loadOrders();
     })
     .catch(err => {
@@ -324,12 +325,7 @@ function openOrder(orderId) {
   document.getElementById("detailPaymentMethod").value = currentOrder.paymentMethod || "";
   document.getElementById("detailCouponCode").value = currentOrder.couponCode || "";
 
-  const items = Array.isArray(currentOrder.items) ? currentOrder.items : [];
-
-  document.getElementById("detailItems").innerHTML = items.length
-    ? items.map(i => `<div class="item-row">${escapeHtml(i.product)} <strong>x${escapeHtml(i.quantity)}</strong></div>`).join("")
-    : "<p>No items</p>";
-
+  renderEditableItems(currentOrder.items || []);
   populateStaffDropdown();
 
   document.getElementById("detailAssignedTo").value = currentOrder.assignedTo || "";
@@ -358,6 +354,80 @@ function populateStaffDropdown() {
   select.innerHTML = html;
 }
 
+function renderEditableItems(items) {
+  const container = document.getElementById("detailItems");
+  container.innerHTML = "";
+
+  if (!items.length) {
+    addEditableItemRow();
+    return;
+  }
+
+  items.forEach(item => {
+    addEditableItemRow(item.product, item.quantity);
+  });
+}
+
+function addEditableItemRow(productValue = "", quantityValue = 1) {
+  const container = document.getElementById("detailItems");
+
+  const row = document.createElement("div");
+  row.className = "editable-item-row";
+
+  const productSelect = document.createElement("select");
+  productSelect.className = "editable-product";
+
+  let productOptions = `<option value="">Select product</option>`;
+
+  productList.forEach(product => {
+    const selected = String(product) === String(productValue) ? "selected" : "";
+    productOptions += `<option value="${escapeAttr(product)}" ${selected}>${escapeHtml(product)}</option>`;
+  });
+
+  if (productValue && !productList.includes(productValue)) {
+    productOptions += `<option value="${escapeAttr(productValue)}" selected>${escapeHtml(productValue)}</option>`;
+  }
+
+  productSelect.innerHTML = productOptions;
+
+  const qtyInput = document.createElement("input");
+  qtyInput.className = "editable-qty";
+  qtyInput.type = "number";
+  qtyInput.min = "1";
+  qtyInput.value = quantityValue || 1;
+
+  const removeBtn = document.createElement("button");
+  removeBtn.type = "button";
+  removeBtn.className = "small-btn remove-item-btn";
+  removeBtn.textContent = "Remove";
+  removeBtn.onclick = () => row.remove();
+
+  row.appendChild(productSelect);
+  row.appendChild(qtyInput);
+  row.appendChild(removeBtn);
+
+  container.appendChild(row);
+}
+
+function collectEditableItems() {
+  const rows = document.querySelectorAll(".editable-item-row");
+  const items = [];
+
+  rows.forEach(row => {
+    const product = row.querySelector(".editable-product").value;
+    const quantity = row.querySelector(".editable-qty").value;
+
+    if (product && quantity) {
+      items.push({
+        product,
+        quantity: Number(quantity)
+      });
+    }
+  });
+
+  return items;
+}
+
 function saveOrderDetails() {
   if (!currentOrder) return;
 
@@ -375,6 +445,8 @@ function saveOrderDetails() {
     wooOrderNotes: document.getElementById("detailWooNotes").value,
     paymentMethod: document.getElementById("detailPaymentMethod").value,
     couponCode: document.getElementById("detailCouponCode").value,
+
+    items: collectEditableItems(),
 
     assignedTo: document.getElementById("detailAssignedTo").value,
     paymentStatus: document.getElementById("detailPaymentStatus").value,
