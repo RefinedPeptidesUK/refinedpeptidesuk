@@ -1213,3 +1213,28 @@ button:hover {
   font-size: 14px;
   font-weight: 700;
 }
+
+.compact-pill-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.compact-payment-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 10px;
+
+  background: rgba(255,255,255,0.04);
+
+  border: 1px solid rgba(147,197,253,0.12);
+  border-radius: 999px;
+
+  color: var(--text-soft);
+
+  font-size: 11px;
+  font-weight: 800;
+}
