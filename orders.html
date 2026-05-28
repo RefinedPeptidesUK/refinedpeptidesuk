@@ -103,7 +103,7 @@
 
     <label>Items</label>
     <div id="detailItems"></div>
-    <button class="small-btn" onclick="addEditableItemRow()">+ Add Item</button>
+    <button id="addItemBtn" class="small-btn" onclick="addEditableItemRow()">+ Add Item</button>
 
     <label>Assign Order</label>
     <select id="detailAssignedTo"></select>
@@ -334,12 +334,32 @@ function openOrder(orderId) {
 
   document.getElementById("orderDetail").classList.remove("hidden");
   document.body.classList.add("detail-open");
+  
+  setItemEditingLock(currentOrder.status);
+
 }
 
 function closeOrder() {
   document.getElementById("orderDetail").classList.add("hidden");
   currentOrder = null;
   document.body.classList.remove("detail-open");
+}
+
+function setItemEditingLock(status) {
+  const isCompleted = String(status || "").toLowerCase() === "completed";
+
+  document.querySelectorAll(".editable-product, .editable-qty").forEach(el => {
+    el.disabled = isCompleted;
+  });
+
+  document.querySelectorAll(".remove-item-btn").forEach(btn => {
+    btn.style.display = isCompleted ? "none" : "block";
+  });
+
+  const addBtn = document.getElementById("addItemBtn");
+  if (addBtn) {
+    addBtn.style.display = isCompleted ? "none" : "block";
+  }
 }
 
 function populateStaffDropdown() {
