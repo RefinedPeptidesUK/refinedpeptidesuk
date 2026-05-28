@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>View Orders</title>
-  <link rel="stylesheet" href="style.css?v=31">
+  <link rel="stylesheet" href="style.css?v=32">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -27,38 +27,33 @@
 <div class="container">
   <h2 class="page-title">Orders</h2>
 
-<button class="filter-open-btn" onclick="openFilters()">Filter Orders</button>
+  <button class="filter-open-btn" onclick="openFilters()">Filter Orders</button>
 
-<div id="filterOverlay" class="filter-overlay hidden">
-  <div class="filter-header">
-    <button class="back-btn" onclick="closeFilters()">← Back</button>
-    <h2>Filter Orders</h2>
+  <div id="filterOverlay" class="filter-overlay hidden">
+    <div class="filter-header">
+      <button class="back-btn" onclick="closeFilters()">← Back</button>
+      <h2>Filter Orders</h2>
+    </div>
+
+    <div class="filter-content">
+      <label>Filter by status</label>
+      <select id="statusFilter" onchange="renderOrderCards()">
+        <option value="">All statuses</option>
+      </select>
+
+      <label>Search customer</label>
+      <input id="customerSearch" type="text" placeholder="Search customer name..." oninput="renderOrderCards()">
+
+      <label>Date from</label>
+      <input id="dateFrom" type="date" onchange="renderOrderCards()">
+
+      <label>Date to</label>
+      <input id="dateTo" type="date" onchange="renderOrderCards()">
+
+      <button onclick="closeFilters()">Apply Filters</button>
+      <button class="small-btn" onclick="clearFilters()">Clear Filters</button>
+    </div>
   </div>
-
-  <div class="filter-content">
-    <label>Filter by status</label>
-    <select id="statusFilter" onchange="renderOrderCards()">
-      <option value="">All statuses</option>
-    </select>
-
-    <label>Search customer</label>
-    <input
-      id="customerSearch"
-      type="text"
-      placeholder="Search customer name..."
-      oninput="renderOrderCards()"
-    >
-
-    <label>Date from</label>
-    <input id="dateFrom" type="date" onchange="renderOrderCards()">
-
-    <label>Date to</label>
-    <input id="dateTo" type="date" onchange="renderOrderCards()">
-
-    <button onclick="closeFilters()">Apply Filters</button>
-    <button class="small-btn" onclick="clearFilters()">Clear Filters</button>
-  </div>
-</div>
 
   <div id="ordersContainer">Loading orders…</div>
 </div>
@@ -70,27 +65,41 @@
   </div>
 
   <div class="detail-content">
-    <h3 id="detailCustomer"></h3>
+    <label>Customer Name</label>
+    <input id="detailCustomerName">
 
-    <div class="info-block">
-      <strong>Status</strong>
-      <p id="detailStatus"></p>
-    </div>
+    <label>Status</label>
+    <input id="detailStatus">
 
-    <div class="info-block">
-      <strong>Shipping / Collection</strong>
-      <p id="detailShipping"></p>
-    </div>
+    <label>Order Total</label>
+    <input id="detailOrderTotal" placeholder="e.g. 120.00">
 
-    <div class="info-block">
-      <strong>Customer Address</strong>
-      <p id="detailAddress"></p>
-    </div>
+    <label>Subtotal</label>
+    <input id="detailSubtotal" placeholder="e.g. 130.00">
 
-    <div class="info-block">
-      <strong>Woo Order Notes</strong>
-      <p id="detailWooNotes"></p>
-    </div>
+    <label>Discount</label>
+    <input id="detailDiscount" placeholder="e.g. 10.00">
+
+    <label>Shipping / Collection</label>
+    <input id="detailShipping">
+
+    <label>Customer Address</label>
+    <textarea id="detailAddress"></textarea>
+
+    <label>Woo / Customer Notes</label>
+    <textarea id="detailWooNotes"></textarea>
+
+    <label>Payment Method</label>
+    <select id="detailPaymentMethod">
+      <option value="">Select payment method</option>
+      <option value="Bank transfer">Bank transfer</option>
+      <option value="Cash">Cash</option>
+      <option value="Card">Card</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>Coupon Code</label>
+    <input id="detailCouponCode">
 
     <div class="info-block">
       <strong>Items</strong>
@@ -214,6 +223,10 @@ function renderOrderCards() {
       ? items.map(i => `${escapeHtml(i.product)} x${escapeHtml(i.quantity)}`).join("<br>")
       : "No items";
 
+    const totalLine = order.orderTotal
+      ? `<div class="assigned-line">Total: £${escapeHtml(order.orderTotal)}</div>`
+      : "";
+
     html += `
       <div class="order-card" onclick="openOrder('${escapeAttr(order.orderId)}')">
         <div class="order-card-top">
@@ -232,6 +245,8 @@ function renderOrderCards() {
           <span>${escapeHtml(order.paymentStatus || "Payment pending")}</span>
         </div>
 
+        ${totalLine}
+
         <div class="assigned-line">
           Assigned: ${escapeHtml(order.assignedTo || "Unassigned")}
         </div>
@@ -244,15 +259,12 @@ function renderOrderCards() {
 
 function populateStatusFilter() {
   const select = document.getElementById("statusFilter");
-
   if (!select) return;
 
   const currentValue = select.value;
 
   const statuses = [...new Set(
-    orders
-      .map(order => order.status)
-      .filter(Boolean)
+    orders.map(order => order.status).filter(Boolean)
   )].sort();
 
   select.innerHTML = `<option value="">All statuses</option>`;
@@ -272,16 +284,6 @@ function clearFilters() {
   document.getElementById("customerSearch").value = "";
   document.getElementById("dateFrom").value = "";
   document.getElementById("dateTo").value = "";
-
-  renderOrderCards();
-}
-
-  function clearFilters() {
-  document.getElementById("statusFilter").value = "";
-  document.getElementById("customerSearch").value = "";
-  document.getElementById("dateFrom").value = "";
-  document.getElementById("dateTo").value = "";
-
   renderOrderCards();
 }
 
@@ -298,7 +300,6 @@ function getOrderDate(order) {
     const date = new Date(order.orderDate);
     return isNaN(date.getTime()) ? null : date;
   }
-
   return null;
 }
 
@@ -311,11 +312,17 @@ function openOrder(orderId) {
   }
 
   document.getElementById("detailOrderId").textContent = `Order #${currentOrder.orderId}`;
-  document.getElementById("detailCustomer").textContent = currentOrder.customerName || "No customer name";
-  document.getElementById("detailStatus").textContent = currentOrder.status || "No status";
-  document.getElementById("detailShipping").textContent = currentOrder.shippingMethod || "Not set";
-  document.getElementById("detailAddress").innerHTML = formatMultiline(currentOrder.customerAddress || "No address");
-  document.getElementById("detailWooNotes").innerHTML = formatMultiline(currentOrder.wooOrderNotes || "No Woo notes");
+
+  document.getElementById("detailCustomerName").value = currentOrder.customerName || "";
+  document.getElementById("detailStatus").value = currentOrder.status || "";
+  document.getElementById("detailOrderTotal").value = currentOrder.orderTotal || "";
+  document.getElementById("detailSubtotal").value = currentOrder.subtotal || "";
+  document.getElementById("detailDiscount").value = currentOrder.discount || "";
+  document.getElementById("detailShipping").value = currentOrder.shippingMethod || "";
+  document.getElementById("detailAddress").value = currentOrder.customerAddress || "";
+  document.getElementById("detailWooNotes").value = currentOrder.wooOrderNotes || "";
+  document.getElementById("detailPaymentMethod").value = currentOrder.paymentMethod || "";
+  document.getElementById("detailCouponCode").value = currentOrder.couponCode || "";
 
   const items = Array.isArray(currentOrder.items) ? currentOrder.items : [];
 
@@ -324,6 +331,7 @@ function openOrder(orderId) {
     : "<p>No items</p>";
 
   populateStaffDropdown();
+
   document.getElementById("detailAssignedTo").value = currentOrder.assignedTo || "";
   document.getElementById("detailPaymentStatus").value = currentOrder.paymentStatus || "";
   document.getElementById("detailInternalNotes").value = currentOrder.internalNotes || "";
@@ -356,6 +364,18 @@ function saveOrderDetails() {
   const payload = {
     action: "saveOrderDetails",
     orderId: currentOrder.orderId,
+
+    customerName: document.getElementById("detailCustomerName").value,
+    status: document.getElementById("detailStatus").value,
+    orderTotal: document.getElementById("detailOrderTotal").value,
+    subtotal: document.getElementById("detailSubtotal").value,
+    discount: document.getElementById("detailDiscount").value,
+    shippingMethod: document.getElementById("detailShipping").value,
+    customerAddress: document.getElementById("detailAddress").value,
+    wooOrderNotes: document.getElementById("detailWooNotes").value,
+    paymentMethod: document.getElementById("detailPaymentMethod").value,
+    couponCode: document.getElementById("detailCouponCode").value,
+
     assignedTo: document.getElementById("detailAssignedTo").value,
     paymentStatus: document.getElementById("detailPaymentStatus").value,
     internalNotes: document.getElementById("detailInternalNotes").value
@@ -385,7 +405,7 @@ function saveOrderDetails() {
 function markCompleted() {
   if (!currentOrder) return;
 
-  if (!confirm("Mark this order as completed?")) return;
+  if (!confirm("Mark this order as completed? This will deduct stock if not already deducted.")) return;
 
   fetch(API_URL, {
     method: "POST",
@@ -409,10 +429,6 @@ function markCompleted() {
     console.error(err);
     alert("Could not complete order.");
   });
-}
-
-function formatMultiline(text) {
-  return escapeHtml(String(text)).replace(/\n/g, "<br>");
 }
 
 function escapeHtml(value) {
