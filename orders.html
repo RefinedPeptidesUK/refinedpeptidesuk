@@ -75,7 +75,16 @@
     <input id="detailCustomerName">
 
     <label>Status</label>
-    <input id="detailStatus">
+    <select id="detailStatus">
+      <option value="pending">Pending payment</option>
+      <option value="on-hold">On hold</option>
+      <option value="processing">Processing</option>
+      <option value="completed">Completed</option>
+      <option value="cancelled">Cancelled</option>
+      <option value="refunded">Refunded</option>
+      <option value="failed">Failed</option>
+      <option value="Manual Order">Manual Order</option>
+    </select>
 
     <label>Order Total</label>
     <input id="detailOrderTotal" placeholder="e.g. 120.00">
@@ -87,7 +96,11 @@
     <input id="detailDiscount" placeholder="e.g. 10.00">
 
     <label>Shipping / Collection</label>
-    <input id="detailShipping">
+    <select id="detailShipping">
+      <option value="">Select option</option>
+      <option value="Delivery">Delivery</option>
+      <option value="Collection">Collection</option>
+    </select>
 
     <label>Customer Address</label>
     <textarea id="detailAddress"></textarea>
