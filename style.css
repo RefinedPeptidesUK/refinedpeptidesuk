@@ -1242,3 +1242,34 @@ button:hover {
 .load-more-btn {
   margin-top: 18px;
 }
+
+.orders-toolbar {
+
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.sync-btn {
+
+  min-width: 140px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18,30,52,0.98),
+      rgba(10,18,33,0.98)
+    );
+
+  border: 1px solid var(--border);
+
+  color: var(--text-soft);
+
+  font-weight: 700;
+}
+
+.sync-btn:disabled {
+  opacity: 0.6;
+}
