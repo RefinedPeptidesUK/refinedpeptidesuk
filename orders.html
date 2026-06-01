@@ -27,7 +27,13 @@
 <div class="container">
   <h2 class="page-title">Orders</h2>
 
+  <div class="orders-toolbar">
   <button class="filter-open-btn" onclick="openFilters()">Filter Orders</button>
+
+  <button class="sync-btn" onclick="syncWooNow()">
+    Sync Woo
+  </button>
+</div>
 
   <div id="filterOverlay" class="filter-overlay hidden">
     <div class="filter-header">
@@ -766,6 +772,44 @@ function escapeHtml(value) {
 
 function escapeAttr(value) {
   return escapeHtml(value).replace(/`/g, "&#096;");
+}
+
+async function syncWooNow() {
+
+  const btn = document.querySelector(".sync-btn");
+
+  btn.disabled = true;
+  btn.textContent = "Syncing...";
+
+  try {
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "syncWooOrders"
+      })
+    });
+
+    const data = await response.json();
+
+    alert(
+      `Woo Sync Complete\n\nImported: ${data.imported}\nSkipped: ${data.skipped}`
+    );
+
+    loadOrders();
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("Woo sync failed.");
+
+  } finally {
+
+    btn.disabled = false;
+    btn.textContent = "Sync Woo";
+
+  }
 }
 
 </script>
