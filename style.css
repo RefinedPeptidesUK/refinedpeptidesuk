@@ -317,9 +317,24 @@ button:hover {
    ORDERS
 ========================================= */
 
-.filter-open-btn {
+.orders-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+  align-items: stretch;
+}
 
-  margin: 0 0 18px;
+.orders-toolbar button {
+  margin: 0;
+  flex: 1;
+}
+
+.filter-open-btn,
+.sync-btn {
+
+  min-height: 52px;
+
+  border-radius: 18px;
 
   background:
     linear-gradient(
@@ -330,20 +345,36 @@ button:hover {
 
   border: 1px solid var(--border);
 
-  color: var(--text-soft);
+  color: var(--blue-pale);
 
-  box-shadow: none;
+  font-size: 15px;
+  font-weight: 800;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 8px 20px rgba(0,0,0,0.25);
+
+  transition: 0.2s;
 }
 
-.filter-open-btn:hover {
-  border-color: rgba(147,197,253,0.30);
+.filter-open-btn:hover,
+.sync-btn:hover {
+
+  border-color: rgba(147,197,253,0.35);
 
   background:
     linear-gradient(
       180deg,
-      rgba(25,40,68,0.98),
+      rgba(24,40,68,0.98),
       rgba(12,22,40,0.98)
     );
+
+  transform: translateY(-1px);
+}
+
+.sync-btn:disabled {
+  opacity: 0.6;
+  transform: none;
 }
 
 .orders-date-group {
@@ -1243,33 +1274,3 @@ button:hover {
   margin-top: 18px;
 }
 
-.orders-toolbar {
-
-  display: flex;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.sync-btn {
-
-  min-width: 140px;
-
-  border-radius: 18px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(18,30,52,0.98),
-      rgba(10,18,33,0.98)
-    );
-
-  border: 1px solid var(--border);
-
-  color: var(--text-soft);
-
-  font-weight: 700;
-}
-
-.sync-btn:disabled {
-  opacity: 0.6;
-}
