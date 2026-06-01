@@ -242,7 +242,7 @@ function loadOrders(loadMore = false) {
     ordersOffset += newOrders.length;
     hasMoreOrders = !!data.hasMore;
 
-    populateAssignedFilter();
+    populateStatusFilter();
     renderDashboard();
     renderOrderCards();
   })
