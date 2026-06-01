@@ -806,7 +806,7 @@ async function syncWooNow() {
     const data = await response.json();
 
     alert(
-      `Woo Sync Complete\n\nImported: ${data.imported ?? 0}\nSkipped: ${data.skipped ?? 0}`
+      `Woo Sync Complete\n\nImported: ${data.imported ?? 0}\nUpdated: ${data.updated ?? 0}\nSkipped: ${data.skipped ?? 0}`
     );
 
     loadOrders();
