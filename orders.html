@@ -47,12 +47,6 @@
         <option value="">All statuses</option>
       </select>
 
-      <label>Filter by assigned staff</label>
-      <select id="assignedFilter" onchange="renderOrderCards()">
-        <option value="">All staff</option>
-        <option value="__UNASSIGNED__">Unassigned</option>
-      </select>
-      
       <label>Search customer</label>
       <input id="customerSearch" type="text" placeholder="Search customer name..." oninput="renderOrderCards()">
 
@@ -66,6 +60,8 @@
       <button class="small-btn" onclick="clearFilters()">Clear Filters</button>
     </div>
   </div>
+
+  <div id="ordersDashboard" class="orders-dashboard"></div>
 
   <div id="ordersContainer">Loading orders…</div>
 </div>
@@ -246,8 +242,8 @@ function loadOrders(loadMore = false) {
     ordersOffset += newOrders.length;
     hasMoreOrders = !!data.hasMore;
 
-    populateStatusFilter();
     populateAssignedFilter();
+    renderDashboard();
     renderOrderCards();
   })
   .catch(err => {
@@ -257,15 +253,61 @@ function loadOrders(loadMore = false) {
   });
 }
 
+function renderDashboard() {
+  const dashboard = document.getElementById("ordersDashboard");
+  if (!dashboard) return;
+
+  const today = new Date().toLocaleDateString("en-GB");
+
+  const processing = orders.filter(o =>
+    String(o.status || "").toLowerCase() === "processing"
+  ).length;
+
+  const paymentPending = orders.filter(o =>
+    String(o.paymentStatus || "").toLowerCase() === "payment pending" ||
+    String(o.paymentStatus || "").toLowerCase() === "pending"
+  ).length;
+
+  const unassigned = orders.filter(o =>
+    !String(o.assignedTo || "").trim()
+  ).length;
+
+  const todayCount = orders.filter(o => {
+    const orderDate = getOrderDate(o);
+    if (!orderDate) return false;
+
+    return orderDate.toLocaleDateString("en-GB") === today;
+  }).length;
+
+  dashboard.innerHTML = `
+    <div class="dashboard-pill">
+      <strong>${processing}</strong>
+      <span>Processing</span>
+    </div>
+
+    <div class="dashboard-pill">
+      <strong>${paymentPending}</strong>
+      <span>Payment pending</span>
+    </div>
+
+    <div class="dashboard-pill">
+      <strong>${unassigned}</strong>
+      <span>Unassigned</span>
+    </div>
+
+    <div class="dashboard-pill">
+      <strong>${todayCount}</strong>
+      <span>Today</span>
+    </div>
+  `;
+}
+
 function renderOrderCards() {
 
   const container = document.getElementById("ordersContainer");
 
   const statusFilter =
     document.getElementById("statusFilter").value;
-
-  const assignedFilter =
-  document.getElementById("assignedFilter").value;
 
   const customerSearch =
     document.getElementById("customerSearch")
@@ -286,20 +328,6 @@ function renderOrderCards() {
       String(order.status || "") === statusFilter
     );
   }
-
-  if (assignedFilter) {
-  filteredOrders = filteredOrders.filter(order => {
-
-    const assigned =
-      String(order.assignedTo || "").trim();
-
-    if (assignedFilter === "__UNASSIGNED__") {
-      return !assigned;
-    }
-
-    return assigned === assignedFilter;
-  });
-}
 
   if (customerSearch) {
     filteredOrders = filteredOrders.filter(order =>
@@ -448,34 +476,8 @@ function populateStatusFilter() {
   select.value = currentValue;
 }
 
-function populateAssignedFilter() {
-  const select = document.getElementById("assignedFilter");
-  if (!select) return;
-
-  const currentValue = select.value;
-
-  const names = [...new Set(
-    staffList.filter(Boolean)
-  )].sort();
-
-  select.innerHTML = `
-    <option value="">All staff</option>
-    <option value="__UNASSIGNED__">Unassigned</option>
-  `;
-
-  names.forEach(name => {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = name;
-    select.appendChild(option);
-  });
-
-  select.value = currentValue;
-}
-
 function clearFilters() {
   document.getElementById("statusFilter").value = "";
-  document.getElementById("assignedFilter").value = "";
   document.getElementById("customerSearch").value = "";
   document.getElementById("dateFrom").value = "";
   document.getElementById("dateTo").value = "";
