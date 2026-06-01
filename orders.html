@@ -47,6 +47,12 @@
         <option value="">All statuses</option>
       </select>
 
+      <label>Filter by assigned staff</label>
+      <select id="assignedFilter" onchange="renderOrderCards()">
+        <option value="">All staff</option>
+        <option value="__UNASSIGNED__">Unassigned</option>
+      </select>
+      
       <label>Search customer</label>
       <input id="customerSearch" type="text" placeholder="Search customer name..." oninput="renderOrderCards()">
 
@@ -241,6 +247,7 @@ function loadOrders(loadMore = false) {
     hasMoreOrders = !!data.hasMore;
 
     populateStatusFilter();
+    populateAssignedFilter();
     renderOrderCards();
   })
   .catch(err => {
@@ -256,6 +263,9 @@ function renderOrderCards() {
 
   const statusFilter =
     document.getElementById("statusFilter").value;
+
+  const assignedFilter =
+  document.getElementById("assignedFilter").value;
 
   const customerSearch =
     document.getElementById("customerSearch")
@@ -276,6 +286,20 @@ function renderOrderCards() {
       String(order.status || "") === statusFilter
     );
   }
+
+  if (assignedFilter) {
+  filteredOrders = filteredOrders.filter(order => {
+
+    const assigned =
+      String(order.assignedTo || "").trim();
+
+    if (assignedFilter === "__UNASSIGNED__") {
+      return !assigned;
+    }
+
+    return assigned === assignedFilter;
+  });
+}
 
   if (customerSearch) {
     filteredOrders = filteredOrders.filter(order =>
@@ -424,8 +448,34 @@ function populateStatusFilter() {
   select.value = currentValue;
 }
 
+function populateAssignedFilter() {
+  const select = document.getElementById("assignedFilter");
+  if (!select) return;
+
+  const currentValue = select.value;
+
+  const names = [...new Set(
+    staffList.filter(Boolean)
+  )].sort();
+
+  select.innerHTML = `
+    <option value="">All staff</option>
+    <option value="__UNASSIGNED__">Unassigned</option>
+  `;
+
+  names.forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+
+  select.value = currentValue;
+}
+
 function clearFilters() {
   document.getElementById("statusFilter").value = "";
+  document.getElementById("assignedFilter").value = "";
   document.getElementById("customerSearch").value = "";
   document.getElementById("dateFrom").value = "";
   document.getElementById("dateTo").value = "";
