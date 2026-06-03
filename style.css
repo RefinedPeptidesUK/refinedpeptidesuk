@@ -1321,8 +1321,12 @@ button:hover {
   align-items: center;
   justify-content: center;
 
-  font-size: 22px;
-  font-weight: 900;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.dashboard-icon * {
+  line-height: 1;
 }
 
 .dashboard-tile strong {
@@ -1379,11 +1383,11 @@ button:hover {
   }
 
   .dashboard-icon {
-    width: 26px;
-    height: 26px;
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
+  width: 28px;
+  height: 28px;
+  margin-bottom: 6px;
+  font-size: 14px;
+   }
 
   .dashboard-tile strong {
     font-size: 22px;
