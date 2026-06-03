@@ -1291,26 +1291,21 @@ button:hover {
 }
 
 .dashboard-icon {
+  position: relative;
   width: 50px;
   height: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  display: grid;
+  place-items: center;
   border-radius: 999px;
   font-size: 0;
 }
 
 .dashboard-icon svg {
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 22px;
   display: block;
-  stroke: currentColor;
-  stroke-width: 2.2;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  margin: auto;
+  transform: translateX(0.5px);
 }
 
 .orders-dashboard {
@@ -1323,7 +1318,7 @@ button:hover {
 .dashboard-tile strong {
   align-self: end;
   color: white;
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 900;
   line-height: 1;
 }
@@ -1400,13 +1395,14 @@ button:hover {
     height: 34px;
   }
 
-  .dashboard-icon svg {
-    width: 17px;
-    height: 17px;
-  }
+ .dashboard-icon svg {
+    width: 16px;
+    height: 16px;
+    transform: translateX(0.5px);
+   }
 
   .dashboard-tile strong {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .dashboard-tile span {
