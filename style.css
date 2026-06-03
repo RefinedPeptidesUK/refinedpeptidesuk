@@ -1276,8 +1276,6 @@ button:hover {
 
 /* ORDERS DASHBOARD */
 
-/* ORDERS DASHBOARD */
-
 .orders-dashboard {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1286,10 +1284,11 @@ button:hover {
 }
 
 .dashboard-tile {
-  min-height: 120px;
-  padding: 16px 10px 14px;
+  min-height: 132px;
+  padding: 14px 10px;
+
   display: grid;
-  grid-template-rows: 46px 30px 20px;
+  grid-template-rows: 46px 34px 22px;
   justify-items: center;
   align-items: center;
 
@@ -1304,24 +1303,23 @@ button:hover {
 }
 
 .dashboard-icon {
-  width: 42px;
-  height: 42px;
-  display: grid;
+  width: 46px;
+  height: 46px;
+  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
 }
 
 .dashboard-icon svg {
-  width: 15px;
-  height: 15px;
+  width: 21px;
+  height: 21px;
   display: block;
   stroke: currentColor;
   fill: none !important;
   stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transform: translateX(-0.5px);
 }
 
 .dashboard-icon-blue {
@@ -1357,7 +1355,7 @@ button:hover {
 
 .dashboard-tile span {
   color: var(--text-soft);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   text-align: center;
   line-height: 1.1;
@@ -1416,27 +1414,27 @@ button:hover {
   }
 
   .dashboard-tile {
-    min-height: 82px;
-    padding: 8px 4px;
-    grid-template-rows: 28px 22px 18px;
+    min-height: 94px;
+    padding: 9px 4px;
+    grid-template-rows: 32px 25px 22px;
     border-radius: 13px;
   }
 
   .dashboard-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
 
   .dashboard-icon svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
   }
 
   .dashboard-tile strong {
-    font-size: 18px;
+    font-size: 21px;
   }
 
   .dashboard-tile span {
-    font-size: 8.5px;
+    font-size: 9px;
   }
 }
