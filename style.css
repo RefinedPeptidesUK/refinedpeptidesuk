@@ -1384,3 +1384,10 @@ button:hover {
     font-size: 21px;
   }
 }
+
+.locked-field {
+  opacity: 0.72;
+  cursor: not-allowed;
+  background: rgba(8,17,31,0.62) !important;
+  border-color: rgba(147,197,253,0.10) !important;
+}
