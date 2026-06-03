@@ -63,6 +63,22 @@
 
   <div id="ordersDashboard" class="orders-dashboard"></div>
 
+  <div class="orders-view-toggle">
+    <button
+      id="activeOrdersBtn"
+      class="view-mode-btn active"
+      onclick="setOrderViewMode('active')">
+      Active Orders
+    </button>
+
+    <button
+      id="allOrdersBtn"
+      class="view-mode-btn"
+      onclick="setOrderViewMode('all')">
+      All Orders
+    </button>
+  </div>
+
   <div id="ordersContainer">Loading orders…</div>
 </div>
 
@@ -190,6 +206,8 @@ let ordersOffset = 0;
 const ORDERS_LIMIT = 25;
 let hasMoreOrders = false;
 
+let orderViewMode = "active";
+
 loadInitialData();
 
 function loadInitialData() {
@@ -249,6 +267,34 @@ function loadOrders(loadMore = false) {
   });
 }
 
+function formatStatus(status) {
+  const value = String(status || "").trim().toLowerCase();
+
+  const labels = {
+    "pending": "Pending payment",
+    "on-hold": "On hold",
+    "processing": "Processing",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded",
+    "failed": "Failed",
+    "manual order": "Manual Order"
+  };
+
+  return labels[value] || status || "Processing";
+}
+
+function isActiveOrder(order) {
+  const status = String(order.status || "").trim().toLowerCase();
+
+  return ![
+    "completed",
+    "cancelled",
+    "refunded",
+    "failed"
+  ].includes(status);
+}
+
 function renderDashboard() {
   const dashboard = document.getElementById("ordersDashboard");
   if (!dashboard) return;
@@ -298,6 +344,21 @@ function renderDashboard() {
   `;
 }
 
+function setOrderViewMode(mode) {
+  orderViewMode = mode;
+
+  document
+    .getElementById("activeOrdersBtn")
+    .classList.toggle("active", mode === "active");
+
+  document
+    .getElementById("allOrdersBtn")
+    .classList.toggle("active", mode === "all");
+
+  renderDashboard();
+  renderOrderCards();
+}
+
 function renderOrderCards() {
 
   const container = document.getElementById("ordersContainer");
@@ -318,6 +379,10 @@ function renderOrderCards() {
     document.getElementById("dateTo").value;
 
   let filteredOrders = [...orders];
+
+  if (orderViewMode === "active") {
+    filteredOrders = filteredOrders.filter(isActiveOrder);
+  }
 
   if (statusFilter) {
     filteredOrders = filteredOrders.filter(order =>
@@ -419,7 +484,7 @@ function renderOrderCards() {
 
             <div class="compact-pill-stack">
               <div class="compact-status-pill">
-                ${escapeHtml(order.status || "Processing")}
+                ${escapeHtml(formatStatus(order.status))}
               </div>
 
               <div class="compact-payment-pill">
