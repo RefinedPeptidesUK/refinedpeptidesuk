@@ -27,6 +27,8 @@
 <div class="container">
   <h2 class="page-title">Orders</h2>
 
+  <div id="ordersDashboard" class="orders-dashboard"></div>
+
   <div class="orders-toolbar">
   <button class="filter-open-btn" onclick="openFilters()">Filter Orders</button>
 
@@ -34,6 +36,22 @@
     Sync Orders
   </button>
 </div>
+
+ <div class="orders-view-toggle">
+    <button
+      id="activeOrdersBtn"
+      class="view-mode-btn active"
+      onclick="setOrderViewMode('active')">
+      Active Orders
+    </button>
+
+    <button
+      id="allOrdersBtn"
+      class="view-mode-btn"
+      onclick="setOrderViewMode('all')">
+      All Orders
+    </button>
+  </div>
 
   <div id="filterOverlay" class="filter-overlay hidden">
     <div class="filter-header">
@@ -59,24 +77,6 @@
       <button onclick="closeFilters()">Apply Filters</button>
       <button class="small-btn" onclick="clearFilters()">Clear Filters</button>
     </div>
-  </div>
-
-  <div id="ordersDashboard" class="orders-dashboard"></div>
-
-  <div class="orders-view-toggle">
-    <button
-      id="activeOrdersBtn"
-      class="view-mode-btn active"
-      onclick="setOrderViewMode('active')">
-      Active Orders
-    </button>
-
-    <button
-      id="allOrdersBtn"
-      class="view-mode-btn"
-      onclick="setOrderViewMode('all')">
-      All Orders
-    </button>
   </div>
 
   <div id="ordersContainer">Loading orders…</div>
@@ -323,25 +323,25 @@ function renderDashboard() {
 
   dashboard.innerHTML = `
     <div class="dashboard-tile tile-processing">
-      <div class="dashboard-icon">⚙</div>
+      <div class="dashboard-icon">⚙️</div>
       <strong>${processing}</strong>
       <span>Processing</span>
     </div>
 
     <div class="dashboard-tile tile-payment">
-      <div class="dashboard-icon">▣</div>
+      <div class="dashboard-icon">💳</div>
       <strong>${paymentPending}</strong>
       <span>Payment Pending</span>
     </div>
 
     <div class="dashboard-tile tile-unassigned">
-      <div class="dashboard-icon">♙</div>
+      <div class="dashboard-icon">👤</div>
       <strong>${unassigned}</strong>
       <span>Unassigned</span>
     </div>
 
     <div class="dashboard-tile tile-today">
-      <div class="dashboard-icon">▦</div>
+      <div class="dashboard-icon">📅</div>
       <strong>${todayCount}</strong>
       <span>Today</span>
     </div>
