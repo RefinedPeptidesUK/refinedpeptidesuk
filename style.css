@@ -1284,8 +1284,14 @@ button:hover {
 }
 
 .dashboard-tile {
-  min-height: 126px;
+  min-height: 150px;
+
   padding: 18px 12px;
+
+  display: grid;
+  grid-template-rows: 52px 1fr auto;
+  justify-items: center;
+  align-items: center;
 
   background:
     linear-gradient(
@@ -1296,17 +1302,6 @@ button:hover {
 
   border: 1px solid rgba(147,197,253,0.16);
   border-radius: 20px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.04),
-    0 10px 24px rgba(0,0,0,0.22);
 }
 
 .dashboard-icon {
@@ -1330,6 +1325,38 @@ button:hover {
 
 .dashboard-icon * {
   line-height: 1;
+}
+
+.dashboard-icon-blue {
+  color: #3b82f6;
+  border: 2px solid rgba(59,130,246,0.55);
+  box-shadow:
+    0 0 16px rgba(59,130,246,0.18),
+    inset 0 0 12px rgba(59,130,246,0.08);
+}
+
+.dashboard-icon-gold {
+  color: #ec4899;
+  border: 2px solid rgba(236,72,153,0.55);
+  box-shadow:
+    0 0 16px rgba(236,72,153,0.18),
+    inset 0 0 12px rgba(236,72,153,0.08);
+}
+
+.dashboard-icon-purple {
+  color: #a855f7;
+  border: 2px solid rgba(168,85,247,0.55);
+  box-shadow:
+    0 0 16px rgba(168,85,247,0.18),
+    inset 0 0 12px rgba(168,85,247,0.08);
+}
+
+.dashboard-icon-green {
+  color: #22c55e;
+  border: 2px solid rgba(34,197,94,0.55);
+  box-shadow:
+    0 0 16px rgba(34,197,94,0.18),
+    inset 0 0 12px rgba(34,197,94,0.08);
 }
 
 .dashboard-tile strong {
@@ -1373,34 +1400,27 @@ button:hover {
 }
 
 @media (max-width: 640px) {
-  .orders-dashboard {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 14px;
-  }
 
   .dashboard-tile {
-    min-height: 82px;
-    padding: 10px 5px;
-    border-radius: 12px;
+    min-height: 120px;
+    padding: 12px 6px;
   }
 
   .dashboard-icon {
-  width: 28px;
-  height: 28px;
-  margin-bottom: 6px;
-  font-size: 14px;
-   }
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
 
   .dashboard-tile strong {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .dashboard-tile span {
-    margin-top: 4px;
-    font-size: 9px;
-    line-height: 1.1;
+    font-size: 11px;
   }
+
 }
 
 .dashboard-summary span {
