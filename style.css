@@ -1313,6 +1313,13 @@ button:hover {
   stroke-linejoin: round;
 }
 
+.orders-dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
 .dashboard-tile strong {
   align-self: end;
   color: white;
