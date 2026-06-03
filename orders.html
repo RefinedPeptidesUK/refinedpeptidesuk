@@ -323,25 +323,25 @@ function renderDashboard() {
 
   dashboard.innerHTML = `
     <div class="dashboard-tile tile-processing">
-      <div class="dashboard-icon">⚙️</div>
+      <div class="dashboard-icon dashboard-icon-blue">⚙</div>
       <strong>${processing}</strong>
       <span>Processing</span>
     </div>
 
     <div class="dashboard-tile tile-payment">
-      <div class="dashboard-icon">💳</div>
+      <div class="dashboard-icon dashboard-icon-pink">▭</div>
       <strong>${paymentPending}</strong>
       <span>Payment Pending</span>
     </div>
 
     <div class="dashboard-tile tile-unassigned">
-      <div class="dashboard-icon">👤</div>
+      <div class="dashboard-icon dashboard-icon-purple">♙</div>
       <strong>${unassigned}</strong>
       <span>Unassigned</span>
     </div>
 
     <div class="dashboard-tile tile-today">
-      <div class="dashboard-icon">📅</div>
+      <div class="dashboard-icon dashboard-icon-green">▦</div>
       <strong>${todayCount}</strong>
       <span>Today</span>
     </div>
