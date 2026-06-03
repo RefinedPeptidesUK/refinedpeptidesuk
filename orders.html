@@ -541,7 +541,8 @@ function openOrder(orderId) {
   document.body.classList.add("detail-open");
   
   setItemEditingLock(currentOrder.status);
-
+  
+  setWooFieldLock(currentOrder);
 }
 
 function closeOrder() {
@@ -824,6 +825,30 @@ function formatPaymentStatus(status) {
   }
 
   return value;
+}
+
+function setWooFieldLock(order) {
+  const isWooOrder =
+    order && !String(order.orderId || "").startsWith("MANUAL-");
+
+  const lockedFieldIds = [
+    "detailCustomerName",
+    "detailOrderTotal",
+    "detailSubtotal",
+    "detailDiscount",
+    "detailShipping",
+    "detailAddress",
+    "detailPaymentMethod",
+    "detailCouponCode"
+  ];
+
+  lockedFieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.disabled = isWooOrder;
+    el.classList.toggle("locked-field", isWooOrder);
+  });
 }
 
 function escapeHtml(value) {
