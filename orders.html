@@ -314,14 +314,36 @@ function renderDashboard() {
     !String(o.assignedTo || "").trim()
   ).length;
 
-  const activeTotal = activeOrders.length;
+  const today = new Date().toLocaleDateString("en-GB");
+
+  const todayCount = orders.filter(o => {
+    const orderDate = getOrderDate(o);
+    return orderDate && orderDate.toLocaleDateString("en-GB") === today;
+  }).length;
 
   dashboard.innerHTML = `
-    <div class="dashboard-summary">
-      <span><strong>${activeTotal}</strong> Active</span>
-      <span><strong>${processing}</strong> Processing</span>
-      <span><strong>${paymentPending}</strong> Awaiting payment</span>
-      <span><strong>${unassigned}</strong> Unassigned</span>
+    <div class="dashboard-tile tile-processing">
+      <div class="dashboard-icon">⚙</div>
+      <strong>${processing}</strong>
+      <span>Processing</span>
+    </div>
+
+    <div class="dashboard-tile tile-payment">
+      <div class="dashboard-icon">▣</div>
+      <strong>${paymentPending}</strong>
+      <span>Payment Pending</span>
+    </div>
+
+    <div class="dashboard-tile tile-unassigned">
+      <div class="dashboard-icon">♙</div>
+      <strong>${unassigned}</strong>
+      <span>Unassigned</span>
+    </div>
+
+    <div class="dashboard-tile tile-today">
+      <div class="dashboard-icon">▦</div>
+      <strong>${todayCount}</strong>
+      <span>Today</span>
     </div>
   `;
 }
