@@ -326,56 +326,25 @@ function renderDashboard() {
   }).length;
 
   dashboard.innerHTML = `
-    <div class="dashboard-tile tile-processing">
-      <div class="dashboard-icon dashboard-icon-blue">
-  <svg viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="3"></circle>
-    <path d="M12 2v3"></path>
-    <path d="M12 19v3"></path>
-    <path d="M4.9 4.9l2.1 2.1"></path>
-    <path d="M17 17l2.1 2.1"></path>
-    <path d="M2 12h3"></path>
-    <path d="M19 12h3"></path>
-    <path d="M4.9 19.1l2.1-2.1"></path>
-    <path d="M17 7l2.1-2.1"></path>
-  </svg>
-</div>
+    <div class="dashboard-icon dashboard-icon-blue">📦</div>
       <strong>${processing}</strong>
       <span>Processing</span>
     </div>
 
     <div class="dashboard-tile tile-payment">
-      <div class="dashboard-icon dashboard-icon-pink">
-  <svg viewBox="0 0 24 24">
-    <rect x="3" y="6" width="18" height="12" rx="2"></rect>
-    <line x1="3" y1="10" x2="21" y2="10"></line>
-    <line x1="7" y1="15" x2="11" y2="15"></line>
-  </svg>
-</div>
+      <div class="dashboard-icon dashboard-icon-pink">💰</div>
       <strong>${paymentPending}</strong>
       <span>Payment Pending</span>
     </div>
 
     <div class="dashboard-tile tile-unassigned">
-      <div class="dashboard-icon dashboard-icon-purple">
-  <svg viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="3"></circle>
-    <path d="M6 19c0-3.3 2.7-6 6-6s6 2.7 6 6"></path>
-  </svg>
-</div>
+      <div class="dashboard-icon dashboard-icon-purple">👤</div>
       <strong>${unassigned}</strong>
       <span>Unassigned</span>
     </div>
 
     <div class="dashboard-tile tile-today">
-      <div class="dashboard-icon dashboard-icon-green">
-  <svg viewBox="0 0 24 24">
-    <rect x="3" y="5" width="18" height="16" rx="2"></rect>
-    <line x1="3" y1="9" x2="21" y2="9"></line>
-    <line x1="8" y1="3" x2="8" y2="7"></line>
-    <line x1="16" y1="3" x2="16" y2="7"></line>
-  </svg>
-</div>
+      <div class="dashboard-icon dashboard-icon-green">📅</div>
       <strong>${todayCount}</strong>
       <span>Today</span>
     </div>
