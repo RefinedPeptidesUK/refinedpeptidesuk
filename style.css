@@ -1450,7 +1450,7 @@ button:hover {
   .orders-dashboard {
     grid-template-columns: repeat(4, 1fr);
     gap: 6px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .dashboard-tile {
@@ -1471,29 +1471,38 @@ button:hover {
   .orders-toolbar {
     grid-template-columns: 1fr 1fr !important;
     gap: 8px !important;
+    margin-bottom: 8px !important;
   }
 
   .orders-toolbar .filter-open-btn,
-   .orders-toolbar .sync-btn {
-     min-height: 34px !important;
-     padding: 6px 10px !important;
-     font-size: 13px !important;
-     border-radius: 12px !important;
-   }
-
-  .btn-icon {
-    font-size: 16px !important;
+  .orders-toolbar .sync-btn {
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 4px 8px !important;
+    font-size: 13px !important;
+    border-radius: 12px !important;
   }
 
- .orders-view-toggle {
-  padding: 3px !important;
-  margin-bottom: 14px !important;
-  border-radius: 14px !important;
-}
+  .icon-btn {
+    gap: 6px !important;
+    font-size: 13px !important;
+  }
 
-.view-mode-btn {
-  min-height: 34px !important;
-  padding: 6px 10px !important;
-  font-size: 13px !important;
-  border-radius: 11px !important;
+  .btn-icon {
+    font-size: 15px !important;
+  }
+
+  .orders-view-toggle {
+    padding: 3px !important;
+    margin-bottom: 14px !important;
+    border-radius: 14px !important;
+  }
+
+  .view-mode-btn {
+    min-height: 32px !important;
+    height: 32px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    border-radius: 11px !important;
+  }
 }
