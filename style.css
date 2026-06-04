@@ -1287,7 +1287,7 @@ button:hover {
   min-height: 118px;
   padding: 14px 8px;
   display: grid;
-  grid-template-rows: 30px 28px 22px;
+  grid-template-rows: 32px 26px 24px;
   justify-items: center;
   align-items: center;
   background: linear-gradient(180deg, rgba(18,30,52,0.95), rgba(10,18,33,0.98));
@@ -1296,31 +1296,10 @@ button:hover {
 }
 
 .dashboard-icon {
-  width: auto;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none !important;
-  box-shadow: none !important;
+  font-size: 26px;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(147,197,253,0.28));
 }
-
-.dashboard-icon svg {
-  width: 24px;
-  height: 24px;
-  display: block;
-  stroke: currentColor;
-  fill: none !important;
-  stroke-width: 2.3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px currentColor);
-}
-
-.dashboard-icon-blue { color: #3b82f6; }
-.dashboard-icon-pink { color: #ff4db8; }
-.dashboard-icon-purple { color: #a855f7; }
-.dashboard-icon-green { color: #22c55e; }
 
 .dashboard-tile strong {
   color: white;
@@ -1353,12 +1332,13 @@ button:hover {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 8px !important;
+  gap: 10px !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
 }
 
 .btn-icon {
-  color: var(--blue-soft);
-  font-size: 18px;
+  font-size: 22px;
   line-height: 1;
 }
 
@@ -1406,13 +1386,12 @@ button:hover {
   .dashboard-tile {
     min-height: 88px;
     padding: 8px 4px;
-    grid-template-rows: 26px 22px 20px;
+    grid-template-rows: 26px 20px 22px;
     border-radius: 13px;
   }
 
-  .dashboard-icon svg {
-    width: 20px;
-    height: 20px;
+  .dashboard-icon {
+    font-size: 22px;
   }
 
   .dashboard-tile strong {
@@ -1430,13 +1409,13 @@ button:hover {
 
   .orders-toolbar .filter-open-btn,
   .orders-toolbar .sync-btn {
-    min-height: 44px !important;
-    font-size: 13px !important;
+    min-height: 48px !important;
+    font-size: 16px !important;
     border-radius: 15px !important;
   }
 
   .btn-icon {
-    font-size: 16px !important;
+    font-size: 22px !important;
   }
 
   .view-mode-btn {
