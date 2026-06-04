@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>View Orders</title>
-  <link rel="stylesheet" href="style.css?v=33">
+  <link rel="stylesheet" href="style.css?v=35">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -215,17 +215,16 @@ let orderViewMode = "active";
 loadInitialData();
 
 function loadInitialData() {
+  loadOrders();
+
   fetch(API_URL)
     .then(r => r.json())
     .then(data => {
       staffList = data.staff || [];
       productList = data.products || [];
-      loadOrders();
     })
     .catch(err => {
       console.error(err);
-      document.getElementById("ordersContainer").innerHTML =
-        "<p>Could not load staff/products.</p>";
     });
 }
 
