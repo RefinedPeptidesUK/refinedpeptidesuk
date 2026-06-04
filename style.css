@@ -1367,6 +1367,7 @@ button:hover {
   font-size: 20px;
   font-weight: 900;
   line-height: 1;
+   margin-top: 3px;
 }
 
 .dashboard-tile span {
